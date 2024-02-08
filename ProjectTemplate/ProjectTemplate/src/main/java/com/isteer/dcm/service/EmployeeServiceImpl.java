@@ -1,4 +1,4 @@
-package com.SampleProjectStructure.ProjectTemplate.Service;
+package com.isteer.dcm.service;
 
 public class EmployeeServiceImpl {
 

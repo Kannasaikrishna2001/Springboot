@@ -1,4 +1,4 @@
-package com.SampleProjectStructure.ProjectTemplate.Constants;
+package com.isteer.dcm.constants;
 
 public interface EmployeeConstants {
 
