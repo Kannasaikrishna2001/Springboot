@@ -1,4 +1,4 @@
-package com.SampleProjectStructure.ProjectTemplate.Controller;
+package com.isteer.dcm.controller;
 
 public class EmployeeRepository {
 

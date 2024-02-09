@@ -1,4 +1,4 @@
-package com.SampleProjectStructure.ProjectTemplate.Model;
+package com.isteer.dcm.model;
 
 public class AllEmpResponse {
 
