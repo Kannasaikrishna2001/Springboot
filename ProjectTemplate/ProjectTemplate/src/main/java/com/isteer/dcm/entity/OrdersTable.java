@@ -2,6 +2,7 @@ package com.isteer.dcm.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -16,11 +17,7 @@ import java.time.LocalDateTime;
         private String product_Id;
         private String order_Status;
         private LocalDateTime update_Time;
-        private String manufacturer_Id;
-
-        public OrdersTable() {
-
-        }
+        private BigDecimal manufacturer_Id;
 
         public Long getOrder_Id() {
             return order_Id;
@@ -62,21 +59,11 @@ import java.time.LocalDateTime;
             this.update_Time = update_Time;
         }
 
-        public String getManufacturer_Id() {
+        public BigDecimal getManufacturer_Id() {
             return manufacturer_Id;
         }
 
-        public OrdersTable(Long order_Id, String order_PlacedBy, String product_Id, String order_Status, LocalDateTime update_Time, String manufacturer_Id) {
-            this.order_Id = order_Id;
-            this.order_PlacedBy = order_PlacedBy;
-            this.product_Id = product_Id;
-            this.order_Status = order_Status;
-            this.update_Time = update_Time;
+        public void setManufacturer_Id(BigDecimal manufacturer_Id) {
             this.manufacturer_Id = manufacturer_Id;
-        }
-
-        public void setManufacturer_Id(String manufacturer_Id) {
-            this.manufacturer_Id = manufacturer_Id;
-
         }
     }

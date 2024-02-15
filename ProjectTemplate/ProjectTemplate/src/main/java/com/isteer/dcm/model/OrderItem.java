@@ -11,7 +11,7 @@ public class OrderItem {
     @JsonProperty("UPC")
     private String upc;
     @JsonProperty("OrderSize")
-    private int orderSize;
+    private BigDecimal orderSize;
 
     public String getDistributorId() {
         return distributorId;
@@ -29,11 +29,11 @@ public class OrderItem {
         this.upc = upc;
     }
 
-    public int getOrderSize() {
+    public BigDecimal getOrderSize() {
         return orderSize;
     }
 
-    public void setOrderSize(int orderSize) {
+    public void setOrderSize(BigDecimal orderSize) {
         this.orderSize = orderSize;
     }
 }

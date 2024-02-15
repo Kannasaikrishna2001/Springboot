@@ -1,149 +1,175 @@
 package com.isteer.dcm.entity;
 
+import com.isteer.dcm.compositekeys.ProductsCompositeKeys;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "Products")
 public class Products {
 
-    @Id
-    private String upc;
-    private String product_Name;
-    private String productDescription;
-    private LocalDate mfgDate;
-    private LocalDate expiryDate;
-    private String storeId;
-    private String regionId;
-    private int salesCount;
-    private String productCategory;
-    private String refilFrequency;
-    private String competetorProductsAvailability;
-    private String collectionStatus;
-    private String stockStatus;
-    private int inventorySize;
-    private String sellerId;
+@EmbeddedId
+    ProductsCompositeKeys productsCompositeKeys;
+    private String product_name;
+    private String Product_Description;
+    private LocalDate mfg_date;
+    private LocalDate expiry_date;
+    private BigDecimal region_id;
+    private BigDecimal sales_count;
+    private String product_category;
+    private BigDecimal refil_frequency;
+    private String competetor_products_availability;
+    private String collectionstatus;
+    private String stockstatus;
+    private BigDecimal inventory_size;
+    private BigDecimal sellerid;
+    private BigDecimal auditor_id;
+    private BigDecimal rating;
+    private String user_reviews;
 
-    public String getUpc() {
-        return upc;
+    public String getProduct_name() {
+        return product_name;
     }
 
-    public void setUpc(String upc) {
-        this.upc = upc;
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
-    public String getProductName() {
-        return product_Name;
+    public String getProduct_Description() {
+        return Product_Description;
     }
 
-    public void setProductName(String productName) {
-        this.product_Name = productName;
+    public void setProduct_Description(String product_Description) {
+        Product_Description = product_Description;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public LocalDate getMfg_date() {
+        return mfg_date;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
+    public void setMfg_date(LocalDate mfg_date) {
+        this.mfg_date = mfg_date;
     }
 
-    public LocalDate getMfgDate() {
-        return mfgDate;
+    public LocalDate getExpiry_date() {
+        return expiry_date;
     }
 
-    public void setMfgDate(LocalDate mfgDate) {
-        this.mfgDate = mfgDate;
+    public void setExpiry_date(LocalDate expiry_date) {
+        this.expiry_date = expiry_date;
     }
 
-    public LocalDate getExpiryDate() {
-        return expiryDate;
+
+    public BigDecimal getRegion_id() {
+        return region_id;
     }
 
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
+    public void setRegion_id(BigDecimal region_id) {
+        this.region_id = region_id;
     }
 
-    public String getStoreId() {
-        return storeId;
+    public BigDecimal getSales_count() {
+        return sales_count;
     }
 
-    public void setStoreId(String storeId) {
-        this.storeId = storeId;
+    public void setSales_count(BigDecimal sales_count) {
+        this.sales_count = sales_count;
     }
 
-    public String getRegionId() {
-        return regionId;
+    public String getProduct_category() {
+        return product_category;
     }
 
-    public void setRegionId(String regionId) {
-        this.regionId = regionId;
+    public void setProduct_category(String product_category) {
+        this.product_category = product_category;
     }
 
-    public int getSalesCount() {
-        return salesCount;
+    public BigDecimal getRefil_frequency() {
+        return refil_frequency;
     }
 
-    public void setSalesCount(int salesCount) {
-        this.salesCount = salesCount;
+    public void setRefil_frequency(BigDecimal refil_frequency) {
+        this.refil_frequency = refil_frequency;
     }
 
-    public String getProductCategory() {
-        return productCategory;
+    public String getCompetetor_products_availability() {
+        return competetor_products_availability;
     }
 
-    public void setProductCategory(String productCategory) {
-        this.productCategory = productCategory;
+    public void setCompetetor_products_availability(String competetor_products_availability) {
+        this.competetor_products_availability = competetor_products_availability;
     }
 
-    public String getRefilFrequency() {
-        return refilFrequency;
+    public String getCollectionstatus() {
+        return collectionstatus;
     }
 
-    public void setRefilFrequency(String refilFrequency) {
-        this.refilFrequency = refilFrequency;
+    public void setCollectionstatus(String collectionstatus) {
+        this.collectionstatus = collectionstatus;
     }
 
-    public String getCompetetorProductsAvailability() {
-        return competetorProductsAvailability;
+    public String getStockstatus() {
+        return stockstatus;
     }
 
-    public void setCompetetorProductsAvailability(String competetorProductsAvailability) {
-        this.competetorProductsAvailability = competetorProductsAvailability;
+    public void setStockstatus(String stockstatus) {
+        this.stockstatus = stockstatus;
     }
 
-    public String getCollectionStatus() {
-        return collectionStatus;
+    public BigDecimal getInventory_size() {
+        return inventory_size;
     }
 
-    public void setCollectionStatus(String collectionStatus) {
-        this.collectionStatus = collectionStatus;
+    public void setInventory_size(BigDecimal inventory_size) {
+        this.inventory_size = inventory_size;
     }
 
-    public String getStockStatus() {
-        return stockStatus;
+    public BigDecimal getSellerid() {
+        return sellerid;
     }
 
-    public void setStockStatus(String stockStatus) {
-        this.stockStatus = stockStatus;
+    public void setSellerid(BigDecimal sellerid) {
+        this.sellerid = sellerid;
     }
 
-    public int getInventorySize() {
-        return inventorySize;
+    public BigDecimal getAuditor_id() {
+        return auditor_id;
     }
 
-    public void setInventorySize(int inventorySize) {
-        this.inventorySize = inventorySize;
+    public void setAuditor_id(BigDecimal auditor_id) {
+        this.auditor_id = auditor_id;
     }
 
-    public String getSellerId() {
-        return sellerId;
+    public BigDecimal getRating() {
+        return rating;
     }
 
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
+    public void setRating(BigDecimal rating) {
+        this.rating = rating;
+    }
+
+    public String getUser_reviews() {
+        return user_reviews;
+    }
+
+    public void setUser_reviews(String user_reviews) {
+        this.user_reviews = user_reviews;
+    }
+
+    public Products() {
+    }
+
+    public ProductsCompositeKeys getProductsCompositeKeys() {
+        return productsCompositeKeys;
+    }
+
+    public void setProductsCompositeKeys(ProductsCompositeKeys productsCompositeKeys) {
+        this.productsCompositeKeys = productsCompositeKeys;
     }
 
     // Constructors, getters, and setters

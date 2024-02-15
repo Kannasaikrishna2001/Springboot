@@ -35,7 +35,7 @@ public class OrderService {
                 return response;
             }
 
-            if (item.getOrderSize() > product.getInventorySize() / 2) {
+            if (item.getOrderSize().intValue() > (product.getInventory_size()).intValue() / 2) {
                 response.setResponseCode(DCMConstants.BAD_REQUEST);
                 response.setResponseMessage("Inventory size not sufficient for order");
                 return response;
@@ -48,12 +48,13 @@ public class OrderService {
             order.setProduct_Id(item.getUpc());
             order.setOrder_Status(OrderResponse.orderStatus); // assuming 1 for placed status
             order.setUpdate_Time(LocalDateTime.now());
-            order.setManufacturer_Id(product.getSellerId());
+            order.setManufacturer_Id(product.getSellerid());
             orderRepository.save(order);
 
 
             // Update inventory size
-            product.setInventorySize(product.getInventorySize() - item.getOrderSize());
+            BigDecimal newInventorySize = product.getInventory_size().subtract(item.getOrderSize());
+            product.setInventory_size(newInventorySize);
             productRepository.save(product);
         }
 
