@@ -1,7 +1,10 @@
 package com.isteer.dcm.utility;
 
 import com.isteer.dcm.constants.DCMConstants;
+import com.isteer.dcm.entity.DcmUsers;
 import com.isteer.dcm.model.Status;
+import com.isteer.dcm.service.OnstartupDataInitializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +18,22 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/*
+* Author: Jeevan,Amarnath, Nasir
+* this class provides the utility methods for sending email, generating transaction id, trimming stack trace
+* create a seven zip file etc*/
+
+
 @Component
 public class DcmUtility {
+
+    @Autowired
+    OnstartupDataInitializer onstartupDataInitializer;
 
     @Value("$(smtp.server.username)")
     private String username;
@@ -38,7 +52,12 @@ public class DcmUtility {
 
     @Value("$(smtp.applicaton.content.type)")
     private String contentType;
-
+public void demoMethod(){
+   List<DcmUsers> usersList= onstartupDataInitializer.getDcmUsersList();
+    Optional<DcmUsers> userData = usersList.stream().filter(p->p.getUserid()==2).findAny();
+    DcmUsers dcmUser=userData.get();
+  String email=  dcmUser.getUseremail();
+}
     public static String getStacktraceSubString(String stackTrace) {
         String[] words = stackTrace.split("\\s+");
         StringBuilder result = new StringBuilder();
