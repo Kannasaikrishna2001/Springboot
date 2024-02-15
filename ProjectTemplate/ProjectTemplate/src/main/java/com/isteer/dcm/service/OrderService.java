@@ -44,11 +44,11 @@ public class OrderService {
 
             // Create order
             OrdersTable order = new OrdersTable();
-            order.setOrder_PlacedBy(item.getDistributorId());
-            order.setProduct_Id(item.getUpc());
-            order.setOrder_Status(OrderResponse.orderStatus); // assuming 1 for placed status
-            order.setUpdate_Time(LocalDateTime.now());
-            order.setManufacturer_Id(product.getSellerid());
+            order.setOrderplaced_by(item.getDistributorId());
+            order.setProduct_id(item.getUpc());
+            order.setOrder_status(OrderResponse.orderStatus); // assuming 1 for placed status
+            order.setUpdatetime(LocalDateTime.now());
+            order.setManufacturer_id(product.getSellerid());
             orderRepository.save(order);
 
 

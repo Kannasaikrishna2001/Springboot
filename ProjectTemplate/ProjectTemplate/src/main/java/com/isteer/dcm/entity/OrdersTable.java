@@ -1,5 +1,6 @@
 package com.isteer.dcm.entity;
 
+import com.isteer.dcm.compositekeys.OrdersCompositeKey;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -7,63 +8,67 @@ import java.time.LocalDateTime;
 
 
     @Entity
-    @Table(name = "Orders_Table")
+    @Table(name = "OrdersTable")
     public class OrdersTable {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long order_Id;
-        private String order_PlacedBy;
-        private String product_Id;
-        private String order_Status;
-        private LocalDateTime update_Time;
-        private BigDecimal manufacturer_Id;
+       @EmbeddedId
+        OrdersCompositeKey ordersCompositeKey;
+        private String orderplaced_by;
+        private String product_id;
+        private String order_status;
+        private LocalDateTime updatetime;
+        private BigDecimal manufacturer_id;
 
-        public Long getOrder_Id() {
-            return order_Id;
+        public OrdersCompositeKey getOrdersCompositeKey() {
+            return ordersCompositeKey;
         }
 
-        public void setOrder_Id(Long order_Id) {
-            this.order_Id = order_Id;
+        public void setOrdersCompositeKey(OrdersCompositeKey ordersCompositeKey) {
+            this.ordersCompositeKey = ordersCompositeKey;
         }
 
-        public String getOrder_PlacedBy() {
-            return order_PlacedBy;
+        public String getOrderplaced_by() {
+            return orderplaced_by;
         }
 
-        public void setOrder_PlacedBy(String order_PlacedBy) {
-            this.order_PlacedBy = order_PlacedBy;
+        public void setOrderplaced_by(String orderplaced_by) {
+            this.orderplaced_by = orderplaced_by;
         }
 
-        public String getProduct_Id() {
-            return product_Id;
+        public String getProduct_id() {
+            return product_id;
         }
 
-        public void setProduct_Id(String product_Id) {
-            this.product_Id = product_Id;
+        public void setProduct_id(String product_id) {
+            this.product_id = product_id;
         }
 
-        public String getOrder_Status() {
-            return order_Status;
+        public String getOrder_status() {
+            return order_status;
         }
 
-        public void setOrder_Status(String order_Status) {
-            this.order_Status = order_Status;
+        public void setOrder_status(String order_status) {
+            this.order_status = order_status;
         }
 
-        public LocalDateTime getUpdate_Time() {
-            return update_Time;
+        public LocalDateTime getUpdatetime() {
+            return updatetime;
         }
 
-        public void setUpdate_Time(LocalDateTime update_Time) {
-            this.update_Time = update_Time;
+        public void setUpdatetime(LocalDateTime updatetime) {
+            this.updatetime = updatetime;
         }
 
-        public BigDecimal getManufacturer_Id() {
-            return manufacturer_Id;
+        public BigDecimal getManufacturer_id() {
+            return manufacturer_id;
         }
 
-        public void setManufacturer_Id(BigDecimal manufacturer_Id) {
-            this.manufacturer_Id = manufacturer_Id;
+        public void setManufacturer_id(BigDecimal manufacturer_id) {
+            this.manufacturer_id = manufacturer_id;
+        }
+
+        public OrdersTable() {
         }
     }
+
+
