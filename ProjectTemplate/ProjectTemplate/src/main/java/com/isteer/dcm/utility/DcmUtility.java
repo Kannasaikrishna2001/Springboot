@@ -32,9 +32,6 @@ import java.util.zip.ZipOutputStream;
 @Component
 public class DcmUtility {
 
-    @Autowired
-    OnstartupDataInitializer onstartupDataInitializer;
-
     @Value("$(smtp.server.username)")
     private String username;
 
@@ -52,12 +49,7 @@ public class DcmUtility {
 
     @Value("$(smtp.applicaton.content.type)")
     private String contentType;
-public void demoMethod(){
-   List<DcmUsers> usersList= onstartupDataInitializer.getDcmUsersList();
-    Optional<DcmUsers> userData = usersList.stream().filter(p->p.getUserid()==2).findAny();
-    DcmUsers dcmUser=userData.get();
-  String email=  dcmUser.getUseremail();
-}
+
     public static String getStacktraceSubString(String stackTrace) {
         String[] words = stackTrace.split("\\s+");
         StringBuilder result = new StringBuilder();
