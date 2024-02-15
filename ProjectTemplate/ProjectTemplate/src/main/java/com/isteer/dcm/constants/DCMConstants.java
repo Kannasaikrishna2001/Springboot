@@ -22,4 +22,8 @@ public interface DCMConstants {
     String JAVAX_NET_SSLFACTORY = "javax.net.ssl.SSLSocketFactory";
     String EMAIL_SUCCESS_MESSAGE="Message sent successfully";
     String EMAIL_ERROR_MESSAGE="Error while sending email";
+    String VALID_REGION_AND_STORE="VALID";
+    String INVALID_REGION_AND_STORE="INVALID";
+    String FAILURE ="Failure" ;
+
 }
