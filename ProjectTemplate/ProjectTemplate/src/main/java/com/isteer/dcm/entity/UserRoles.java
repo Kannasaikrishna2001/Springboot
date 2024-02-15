@@ -1,12 +1,14 @@
 package com.isteer.dcm.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "userRoles")
 public class UserRoles {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
 
     @Column(name="roleId")
     private int roleId;
@@ -15,28 +17,29 @@ public class UserRoles {
     private String roleName;
 
     @Column(name="exportSalesFile")
-    private boolean exportSalesFile;
+    private String exportSalesFile;
 
     @Column(name="placeOrder")
-    private boolean placeOrder;
+    private String placeOrder;
 
     @Column(name="acceptOrder")
-    private boolean acceptOrder;
+    private String acceptOrder;
 
     @Column(name="rejectOrder")
-    private boolean rejectOrder;
+    private String rejectOrder;
 
     @Column(name="uploadCollectedData")
-    private boolean uploadCollectedData;
+    private String uploadCollectedData;
 
     @Column(name="viewRatingandReview")
-    private boolean viewRatingandReview;
+    private String viewRatingandReview;
 
     @Column(name="checkInventorySize")
     private boolean checkInventorySize;
 
     @Column(name="alterUsers")
-    private boolean alterUsers;
+    private String alterUsers;
+
 
     public int getRoleId() {
         return roleId;
@@ -54,51 +57,51 @@ public class UserRoles {
         this.roleName = roleName;
     }
 
-    public boolean isExportSalesFile() {
+    public String isExportSalesFile() {
         return exportSalesFile;
     }
 
-    public void setExportSalesFile(boolean exportSalesFile) {
+    public void setExportSalesFile(String exportSalesFile) {
         this.exportSalesFile = exportSalesFile;
     }
 
-    public boolean isPlaceOrder() {
+    public String isPlaceOrder() {
         return placeOrder;
     }
 
-    public void setPlaceOrder(boolean placeOrder) {
+    public void setPlaceOrder(String placeOrder) {
         this.placeOrder = placeOrder;
     }
 
-    public boolean isAcceptOrder() {
+    public String isAcceptOrder() {
         return acceptOrder;
     }
 
-    public void setAcceptOrder(boolean acceptOrder) {
+    public void setAcceptOrder(String acceptOrder) {
         this.acceptOrder = acceptOrder;
     }
 
-    public boolean isRejectOrder() {
+    public String isRejectOrder() {
         return rejectOrder;
     }
 
-    public void setRejectOrder(boolean rejectOrder) {
+    public void setRejectOrder(String rejectOrder) {
         this.rejectOrder = rejectOrder;
     }
 
-    public boolean isUploadCollectedData() {
+    public String isUploadCollectedData() {
         return uploadCollectedData;
     }
 
-    public void setUploadCollectedData(boolean uploadCollectedData) {
+    public void setUploadCollectedData(String uploadCollectedData) {
         this.uploadCollectedData = uploadCollectedData;
     }
 
-    public boolean isViewRatingandReview() {
+    public String isViewRatingandReview() {
         return viewRatingandReview;
     }
 
-    public void setViewRatingandReview(boolean viewRatingandReview) {
+    public void setViewRatingandReview(String viewRatingandReview) {
         this.viewRatingandReview = viewRatingandReview;
     }
 
@@ -110,11 +113,11 @@ public class UserRoles {
         this.checkInventorySize = checkInventorySize;
     }
 
-    public boolean isAlterUsers() {
+    public String isAlterUsers() {
         return alterUsers;
     }
 
-    public void setAlterUsers(boolean alterUsers) {
+    public void setAlterUsers(String alterUsers) {
         this.alterUsers = alterUsers;
     }
 }
