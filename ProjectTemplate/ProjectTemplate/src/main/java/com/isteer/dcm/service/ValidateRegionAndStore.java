@@ -23,7 +23,7 @@ public class ValidateRegionAndStore {
     public String validateRegionAndStore(int regionId, String regionName, int storeId, String storeName) {
         String status = null;
         try {
-            RegionalStores regionalStore = regionalStoreRepository.findByRegionIdAndRegionName(regionId, regionName, storeId, storeName);
+            RegionalStores regionalStore = regionalStoreRepository.findByRegionIdAndRegionName(regionId, regionName);
             if (regionalStore != null) {
                 if (regionalStore.getStoreId() == storeId && regionalStore.getRegionName().equals(regionName)) {
                     status = DCMConstants.VALID_REGION_AND_STORE;
