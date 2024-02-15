@@ -12,4 +12,12 @@ public class OrderRequest {
     public void setPlaceOrder(List<OrderItem> placeOrder) {
         this.placeOrder = placeOrder;
     }
+
+    public String getDistributorId() {
+        return null;
+    }
+
+    public Object getProductId() {
+        return null;
+    }
 }
