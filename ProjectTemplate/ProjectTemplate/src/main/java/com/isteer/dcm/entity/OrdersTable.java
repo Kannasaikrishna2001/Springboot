@@ -10,21 +10,20 @@ import java.time.LocalDateTime;
     @Entity
     @Table(name = "OrdersTable")
     public class OrdersTable {
-
-       @EmbeddedId
-        OrdersCompositeKey ordersCompositeKey;
+@Id
+        private BigDecimal order_id;
         private String orderplaced_by;
         private String product_id;
         private String order_status;
         private LocalDateTime updatetime;
         private BigDecimal manufacturer_id;
 
-        public OrdersCompositeKey getOrdersCompositeKey() {
-            return ordersCompositeKey;
+        public BigDecimal getOrder_id() {
+            return order_id;
         }
 
-        public void setOrdersCompositeKey(OrdersCompositeKey ordersCompositeKey) {
-            this.ordersCompositeKey = ordersCompositeKey;
+        public void setOrder_id(BigDecimal order_id) {
+            this.order_id = order_id;
         }
 
         public String getOrderplaced_by() {
