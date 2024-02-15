@@ -16,18 +16,13 @@ public class CsvFileScheduler {
     @Value("${csv.file.path}")
     private String filePath;
 
-
-
     public CsvFileScheduler(CsvReaderService csvReaderService) {
         this.csvReaderService = csvReaderService;
     }
 
-    @Scheduled(cron = "0 0 0 ? * MON")
+    @Scheduled(cron = "${csv.file.parser.cron.expression}")
     public void parseCsvFile() {
         List<Production> productions = csvReaderService.readCsvFile(filePath);
 
-        for (Production production : productions) {
-            System.out.println(production);
-        }
     }
 }
