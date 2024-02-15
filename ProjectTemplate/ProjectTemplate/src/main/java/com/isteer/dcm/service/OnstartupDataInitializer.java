@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class DataInitializer {
+public class OnstartupDataInitializer {
 
     @Autowired
     private DcmUsersRepository dcmUsersRepository;
@@ -21,24 +21,19 @@ public class DataInitializer {
     @Autowired
     private UserRolesRepository userRolesRepository;
 
-  OnStartupDataLoader onStartupDataLoader = new OnStartupDataLoader();
+    OnStartupDataLoader onStartupDataLoader = new OnStartupDataLoader();
 
     @PostConstruct
     public void init() {
-
         onStartupDataLoader.setUserRoles(userRolesRepository.findAll());
-        onStartupDataLoader.setDcmUsers( dcmUsersRepository.findAll());
-
+        onStartupDataLoader.setDcmUsers(dcmUsersRepository.findAll());
     }
 
-    public List<UserRoles> getUserRoles(){
-
+    public List<UserRoles> getUserRoles() {
         return onStartupDataLoader.getUserRoles();
     }
-    public List<DcmUsers> getDcmUsersList(){
+
+    public List<DcmUsers> getDcmUsersList() {
         return onStartupDataLoader.getDcmUsers();
     }
-
-
-
 }
