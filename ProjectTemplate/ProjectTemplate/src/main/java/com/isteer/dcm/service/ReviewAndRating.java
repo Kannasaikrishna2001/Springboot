@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class ReviewAndRating {
     @Autowired
@@ -13,6 +15,6 @@ public class ReviewAndRating {
 
     @Transactional
     public Products getProductByStoreId(String storeId) {
-        return productsRepository.findByStore_Id(Integer.parseInt(storeId)).orElse(null);
+        return productsRepository.findByStore_Id(BigDecimal.valueOf(Long.parseLong(storeId))).orElse(null);
     }
 }

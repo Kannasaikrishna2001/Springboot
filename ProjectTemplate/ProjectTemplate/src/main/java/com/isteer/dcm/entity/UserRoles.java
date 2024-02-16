@@ -10,34 +10,34 @@ public class UserRoles {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
 
-    @Column(name="roleId")
+    @Column(name = "roleId")
     private int roleId;
 
-    @Column(name="roleName")
+    @Column(name = "roleName")
     private String roleName;
 
-    @Column(name="exportSalesFile")
+    @Column(name = "exportSalesFile")
     private String exportSalesFile;
 
-    @Column(name="placeOrder")
+    @Column(name = "placeOrder")
     private String placeOrder;
 
-    @Column(name="acceptOrder")
+    @Column(name = "acceptOrder")
     private String acceptOrder;
 
-    @Column(name="rejectOrder")
+    @Column(name = "rejectOrder")
     private String rejectOrder;
 
-    @Column(name="uploadCollectedData")
+    @Column(name = "uploadCollectedData")
     private String uploadCollectedData;
 
-    @Column(name="viewRatingandReview")
+    @Column(name = "viewRatingandReview")
     private String viewRatingandReview;
 
-    @Column(name="checkInventorySize")
+    @Column(name = "checkInventorySize")
     private boolean checkInventorySize;
 
-    @Column(name="alterUsers")
+    @Column(name = "alterUsers")
     private String alterUsers;
 
 

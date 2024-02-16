@@ -10,30 +10,28 @@ public class DcmUsers {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
 
-    @Column(name = "userid")
-    private int userid;
+    @Column(name = "user_id")
+    private int user_id;
 
-    @Column(name = "username")
+    @Column(name = "user_name")
     private String username;
 
-    @Column(name = "userrole")
-    private Integer userrole;
+    @Column(name = "user_role")
+    private Integer user_role;
 
-    @Column(name = "rolename")
-    private String rolename;
 
-    @Column(name = "useremail")
-    private String useremail;
+    @Column(name = "user_email")
+    private String user_email;
 
-    @Column(name = "userstatus")
-    private String userstatus;
+    @Column(name = "user_status")
+    private String user_status;
 
-    public int getUserid() {
-        return userid;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getUsername() {
@@ -44,39 +42,40 @@ public class DcmUsers {
         this.username = username;
     }
 
-    public int getUserrole() {
-        return userrole;
+    public Integer getUser_role() {
+        return user_role;
     }
 
-    public void setUserrole(int userrole) {
-        this.userrole = userrole;
+    public void setUser_role(Integer user_role) {
+        this.user_role = user_role;
     }
 
-    public String getRolename() {
-        return rolename;
+    public String getUser_email() {
+        return user_email;
     }
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename;
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
     }
 
-    public String getUseremail() {
-        return useremail;
+    public String getUser_status() {
+        return user_status;
     }
 
-    public void setUseremail(String useremail) {
-        this.useremail = useremail;
+    public void setUser_status(String user_status) {
+        this.user_status = user_status;
     }
 
-    public String getUserstatus() {
-        return userstatus;
+    @Override
+    public String toString() {
+        return "DcmUsers{" +
+                "user_id=" + user_id +
+                ", username='" + username + '\'' +
+                ", user_role=" + user_role +
+                ", user_email='" + user_email + '\'' +
+                ", user_status='" + user_status + '\'' +
+                '}';
     }
-
-    public void setUserstatus(String userstatus) {
-        this.userstatus = userstatus;
-    }
-
-
 }
 
 

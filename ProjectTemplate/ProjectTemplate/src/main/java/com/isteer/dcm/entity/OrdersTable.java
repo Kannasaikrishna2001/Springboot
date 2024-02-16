@@ -1,6 +1,5 @@
 package com.isteer.dcm.entity;
 
-import com.isteer.dcm.compositekeys.OrdersCompositeKey;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

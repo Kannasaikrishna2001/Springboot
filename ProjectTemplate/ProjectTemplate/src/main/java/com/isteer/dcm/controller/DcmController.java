@@ -46,8 +46,8 @@ public class DcmController {
         Products product = reviewAndRating.getProductByStoreId(store_id);
         if (product != null) {
             Map<String, Object> response = new HashMap<>();
-            response.put("upc", product.getUpc());
-            response.put("product_name", product.getProductName());
+            response.put("upc", product.getProductsCompositeKeys().getUpc());
+            response.put("product_name", product.getProduct_name());
             response.put("rating", product.getRating());
             response.put("review", product.getUser_reviews());
 

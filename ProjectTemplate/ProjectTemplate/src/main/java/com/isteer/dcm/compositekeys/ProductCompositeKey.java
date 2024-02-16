@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Embeddable
-public class ProductsCompositeKeys implements Serializable {
+public class ProductCompositeKey implements Serializable {
 
     private BigDecimal upc;
     private BigDecimal store_id;
@@ -32,7 +32,7 @@ public class ProductsCompositeKeys implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductsCompositeKeys that = (ProductsCompositeKeys) o;
+        ProductCompositeKey that = (ProductCompositeKey) o;
         return Objects.equals(upc, that.upc) && Objects.equals(store_id, that.store_id);
     }
 
@@ -41,6 +41,6 @@ public class ProductsCompositeKeys implements Serializable {
         return Objects.hash(upc, store_id);
     }
 
-    public ProductsCompositeKeys() {
+    public ProductCompositeKey() {
     }
 }

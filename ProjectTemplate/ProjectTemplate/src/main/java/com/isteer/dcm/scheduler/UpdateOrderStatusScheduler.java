@@ -22,12 +22,7 @@ public class UpdateOrderStatusScheduler {
     @Scheduled(fixedRateString = "${checkStatus.time.interval}")
 
    public void scheduleOrderStatusCheck() {
-       /* List<Orders> placedOrders = orderStatusService.getOrderStatus();
-        List<Orders> inProgressOrders = orderStatusService.getOrderStatus();
-        List<Orders> shippedOrders= orderStatusService.getOrderStatus();*/
         orderStatusService.getOrderStatus();
-
-
         logger.info("Scheduled order status check completed.");
     }
 }

@@ -1,9 +1,8 @@
 package com.isteer.dcm.entity;
 
-import com.isteer.dcm.compositekeys.ProductsCompositeKeys;
+import com.isteer.dcm.compositekeys.ProductCompositeKey;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
@@ -13,8 +12,8 @@ import java.time.LocalDate;
 @Table(name = "Products")
 public class Products {
 
-@EmbeddedId
-    ProductsCompositeKeys productsCompositeKeys;
+    @EmbeddedId
+    ProductCompositeKey productCompositeKey;
     private String product_name;
     private String Product_Description;
     private LocalDate mfg_date;
@@ -164,12 +163,12 @@ public class Products {
     public Products() {
     }
 
-    public ProductsCompositeKeys getProductsCompositeKeys() {
-        return productsCompositeKeys;
+    public ProductCompositeKey getProductsCompositeKeys() {
+        return productCompositeKey;
     }
 
-    public void setProductsCompositeKeys(ProductsCompositeKeys productsCompositeKeys) {
-        this.productsCompositeKeys = productsCompositeKeys;
+    public void setProductsCompositeKeys(ProductCompositeKey productCompositeKey) {
+        this.productCompositeKey = productCompositeKey;
     }
 
     // Constructors, getters, and setters

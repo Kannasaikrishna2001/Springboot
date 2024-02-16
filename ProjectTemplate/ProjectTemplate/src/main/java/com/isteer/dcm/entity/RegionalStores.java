@@ -9,25 +9,25 @@ public class RegionalStores {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="regionId")
+    @Column(name = "regionId")
     private Long regionId;
 
-    @Column(name="regionName")
+    @Column(name = "regionName")
     private String regionName;
 
-    @Column(name="storeId")
+    @Column(name = "storeId")
     private int storeId;
 
-    @Column(name="storeName")
+    @Column(name = "storeName")
     private String storeName;
 
-    @Column(name="storeStatus")
+    @Column(name = "storeStatus")
     private String storeStatus;
 
-    @Column(name="upstreamFileLocation")
+    @Column(name = "upstreamFileLocation")
     private String upstreamFileLocation;
 
-    @Column(name="archiveLocation")
+    @Column(name = "archiveLocation")
     private String archiveLocation;
 
     public Long getId() {

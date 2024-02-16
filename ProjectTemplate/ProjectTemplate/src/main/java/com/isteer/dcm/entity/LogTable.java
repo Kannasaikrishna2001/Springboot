@@ -18,6 +18,10 @@ public class LogTable {
     @Column(name = "start_date_time")
     private LocalDateTime startDateTime;
 
+    @Column(name = "end_date_time")
+    private LocalDateTime end_date_time;
+
+
     @Column(name = "process_id")
     private String processId;
 
@@ -108,5 +112,13 @@ public class LogTable {
 
     public void setResponse(String response) {
         this.response = response;
+    }
+
+    public LocalDateTime getEnd_date_time() {
+        return end_date_time;
+    }
+
+    public void setEnd_date_time(LocalDateTime end_date_time) {
+        this.end_date_time = end_date_time;
     }
 }

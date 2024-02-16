@@ -25,5 +25,4 @@ public interface DCMConstants {
     String VALID_REGION_AND_STORE="VALID";
     String INVALID_REGION_AND_STORE="INVALID";
     String FAILURE ="Failure" ;
-
 }
