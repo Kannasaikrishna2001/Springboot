@@ -22,7 +22,7 @@ public class Products {
     private BigDecimal sales_count;
     private String product_category;
     private BigDecimal refil_frequency;
-    private String competetor_products_availability;
+    private String comp_prods;
     private String collectionstatus;
     private String stockstatus;
     private BigDecimal inventory_size;
@@ -96,12 +96,12 @@ public class Products {
         this.refil_frequency = refil_frequency;
     }
 
-    public String getCompetetor_products_availability() {
-        return competetor_products_availability;
+    public String getComp_prods() {
+        return comp_prods;
     }
 
-    public void setCompetetor_products_availability(String competetor_products_availability) {
-        this.competetor_products_availability = competetor_products_availability;
+    public void setComp_prods(String comp_prods) {
+        this.comp_prods = comp_prods;
     }
 
     public String getCollectionstatus() {
