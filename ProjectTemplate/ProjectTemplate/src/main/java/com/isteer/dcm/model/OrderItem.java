@@ -10,7 +10,7 @@ public class OrderItem {
     @JsonProperty("DistributorId")
     private String distributorId;
     @JsonProperty("UPC")
-    private String upc;
+    private ProductCompositeKey upc;
     @JsonProperty("OrderSize")
     private BigDecimal orderSize;
 
@@ -26,7 +26,7 @@ public class OrderItem {
         return upc;
     }
 
-    public void setUpc(String upc) {
+    public void setUpc(ProductCompositeKey upc) {
         this.upc = upc;
     }
 
