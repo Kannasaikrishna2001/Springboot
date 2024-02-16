@@ -1,6 +1,7 @@
 package com.isteer.dcm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.isteer.dcm.compositekeys.ProductCompositeKey;
 
 import java.math.BigDecimal;
 
@@ -21,7 +22,7 @@ public class OrderItem {
         this.distributorId = distributorId;
     }
 
-    public String getUpc() {
+    public ProductCompositeKey getUpc() {
         return upc;
     }
 

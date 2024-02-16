@@ -1,5 +1,6 @@
 package com.isteer.dcm.entity;
 
+import com.isteer.dcm.compositekeys.ProductCompositeKey;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Id
         private BigDecimal order_id;
         private String orderplaced_by;
-        private String product_id;
+        private ProductCompositeKey product_id;
         private String order_status;
         private LocalDateTime updatetime;
         private BigDecimal manufacturer_id;
@@ -33,11 +34,11 @@ import java.time.LocalDateTime;
             this.orderplaced_by = orderplaced_by;
         }
 
-        public String getProduct_id() {
+        public ProductCompositeKey getProduct_id() {
             return product_id;
         }
 
-        public void setProduct_id(String product_id) {
+        public void setProduct_id(ProductCompositeKey product_id) {
             this.product_id = product_id;
         }
 

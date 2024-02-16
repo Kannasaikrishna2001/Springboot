@@ -4,6 +4,7 @@ import com.isteer.dcm.constants.DCMConstants;
 import com.isteer.dcm.entity.Products;
 import com.isteer.dcm.model.OrderRequest;
 import com.isteer.dcm.model.OrderResponse;
+import com.isteer.dcm.service.LogServiceImpl;
 import com.isteer.dcm.service.OrderService;
 import com.isteer.dcm.service.ReviewAndRating;
 import org.slf4j.Logger;
@@ -17,12 +18,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @RestController
 @RequestMapping("/api/orders")
 public class DcmController {
 
     private static final Logger logger = LoggerFactory.getLogger(DcmController.class);
+    @Autowired
+    LogServiceImpl logService;
 
+
+    @PostMapping("/log-error")
+    public String logError(
+            @RequestParam String processName,
+            @RequestParam String errorMessage,
+            @RequestParam(required = false) String stackTrace,
+            @RequestParam(required = false) String processId,
+            @RequestParam(required = false) String request,
+            @RequestParam(required = false) String response) {
+
+        logService.logData(processName, errorMessage, stackTrace, processId, request, response);
+
+        return "Logged error successfully";
+    }
     @Autowired
     private OrderService orderService;
 
@@ -55,6 +73,5 @@ public class DcmController {
         } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 }
