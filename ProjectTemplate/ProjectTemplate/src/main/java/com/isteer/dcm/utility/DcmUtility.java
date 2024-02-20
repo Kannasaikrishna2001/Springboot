@@ -3,8 +3,7 @@ package com.isteer.dcm.utility;
 import com.isteer.dcm.constants.DCMConstants;
 import com.isteer.dcm.entity.DcmUsers;
 import com.isteer.dcm.model.Status;
-import com.isteer.dcm.service.OnstartupDataInitializer;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,17 +17,14 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /*
 * Author: Jeevan,Amarnath, Nasir
 * this class provides the utility methods for sending email, generating transaction id, trimming stack trace
-* create a seven zip file etc*/
-
-
+* create a seven zip file etc
+* */
 @Component
 public class DcmUtility {
 
@@ -81,6 +77,10 @@ public class DcmUtility {
         fos.close();
         return outputSevenZipFile;
     }
+
+    /*
+    * check if the email utility class is working for multiple receipients, if not make necessary changes to
+    * accomodate multiple recepients*/
 
     public Status sendEmail(String toEmail, String subject, String body) {
         try {

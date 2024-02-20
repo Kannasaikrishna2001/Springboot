@@ -4,40 +4,40 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "userRoles")
+@Table(name = "USERROLES")
 public class UserRoles {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "role_Id")
-    private int roleId;
+    @Column(name = "ROLE_ID")
+    private Integer roleId;
 
-    @Column(name = "role_Name")
+    @Column(name = "ROLE_NAME")
     private String roleName;
 
-    @Column(name = "exportSalesFile")
+    @Column(name = "EXPORT_SALES_FILE")
     private String exportSalesFile;
 
-    @Column(name = "placeOrder")
+    @Column(name = "PLACE_ORDER")
     private String placeOrder;
 
-    @Column(name = "acceptOrder")
+    @Column(name = "ACCEPT_ORDER")
     private String acceptOrder;
 
-    @Column(name = "rejectOrder")
+    @Column(name = "REJECT_ORDER")
     private String rejectOrder;
 
-    @Column(name = "uploadCollectedData")
+    @Column(name = "UPLOAD_COLLECTED_DATA")
     private String uploadCollectedData;
 
-    @Column(name = "viewRatingandReview")
+    @Column(name = "VIEW_RATING_AND_REVIEW")
     private String viewRatingandReview;
 
-    @Column(name = "checkInventorySize")
+    @Column(name = "CHECK_INVENTORY_SIZE")
     private boolean checkInventorySize;
 
-    @Column(name = "alterUsers")
+    @Column(name = "ALTER_USERS")
     private String alterUsers;
 
 

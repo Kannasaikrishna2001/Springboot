@@ -6,32 +6,31 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "DistributorInventory")
+@Table(name = "DISTRIBUTORINVENTORY")
 public class DistributorInventory {
 
     @Id
+    @Column(name="DISTRIBUTOR_ID")
+    private Integer distributorId;
 
-    @Column(name="distributor_Id")
-    private Integer distributor_Id;
-
-    @Column(name="upc")
+    @Column(name="UPC")
     private Long upc;
 
-    @Column(name="inventory_size")
-    private Integer inventory_size;
+    @Column(name="INVENTORY_SIZE")
+    private Integer inventorySize;
 
     @Column(name="upc_Name")
-    private String upc_Name;
+    private String upcName;
 
-    @Column(name="stock_status")
-    private String stock_status;
+    @Column(name="STOCK_STATUS")
+    private String stockStatus;
 
-    public Integer getDistributor_Id() {
-        return distributor_Id;
+    public Integer getDistributorId() {
+        return distributorId;
     }
 
-    public void setDistributor_Id(Integer distributor_Id) {
-        this.distributor_Id = distributor_Id;
+    public void setDistributorId(Integer distributorId) {
+        this.distributorId = distributorId;
     }
 
     public Long getUpc() {
@@ -42,27 +41,27 @@ public class DistributorInventory {
         this.upc = upc;
     }
 
-    public Integer getInventory_size() {
-        return inventory_size;
+    public Integer getInventorySize() {
+        return inventorySize;
     }
 
-    public void setInventory_size(Integer inventory_size) {
-        this.inventory_size = inventory_size;
+    public void setInventorySize(Integer inventorySize) {
+        this.inventorySize = inventorySize;
     }
 
-    public String getUpc_Name() {
-        return upc_Name;
+    public String getUpcName() {
+        return upcName;
     }
 
-    public void setUpc_Name(String upc_Name) {
-        this.upc_Name = upc_Name;
+    public void setUpcName(String upcName) {
+        this.upcName = upcName;
     }
 
-    public String getStock_status() {
-        return stock_status;
+    public String getStockStatus() {
+        return stockStatus;
     }
 
-    public void setStock_status(String stock_status) {
-        this.stock_status = stock_status;
+    public void setStockStatus(String stockStatus) {
+        this.stockStatus = stockStatus;
     }
 }

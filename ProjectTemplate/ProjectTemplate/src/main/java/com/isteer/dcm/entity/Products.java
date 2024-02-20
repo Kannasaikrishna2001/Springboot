@@ -1,6 +1,7 @@
 package com.isteer.dcm.entity;
 
 import com.isteer.dcm.compositekeys.ProductCompositeKey;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -26,7 +27,8 @@ public class Products {
     private String collectionstatus;
     private String stockstatus;
     private BigDecimal inventory_size;
-    private BigDecimal sellerid;
+    @Column(name="SELLERID")
+    private BigDecimal sellerId;
     private BigDecimal auditor_id;
     private BigDecimal rating;
     private String user_reviews;
@@ -129,11 +131,11 @@ public class Products {
     }
 
     public BigDecimal getSellerid() {
-        return sellerid;
+        return sellerId;
     }
 
     public void setSellerid(BigDecimal sellerid) {
-        this.sellerid = sellerid;
+        this.sellerId = sellerid;
     }
 
     public BigDecimal getAuditor_id() {

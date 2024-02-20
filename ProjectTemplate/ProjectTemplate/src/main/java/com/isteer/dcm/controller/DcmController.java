@@ -5,6 +5,7 @@ import com.isteer.dcm.model.OrderRequest;
 import com.isteer.dcm.model.OrderResponse;
 import com.isteer.dcm.model.RatingReviewResponse;
 //import com.isteer.dcm.service.OrderService;
+import com.isteer.dcm.service.OrderService;
 import com.isteer.dcm.service.ReviewAndRating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +22,8 @@ public class DcmController {
 
     private static final Logger logger = LoggerFactory.getLogger(DcmController.class);
 
-   /* @Autowired
-    private OrderService orderService;*/
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private ReviewAndRating reviewAndRating;
@@ -35,7 +36,7 @@ public class DcmController {
      * 3: check for all other possible scenarios as well apart from the two mentioned above
      * */
 
- /*   @PostMapping("/place-order")
+   @PostMapping("/place-order")
     public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest request) {
         try {
             OrderResponse response = orderService.placeOrder(request);
@@ -45,7 +46,7 @@ public class DcmController {
             logger.error("Error occurred while placing order", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-    }*/
+    }
 
     @GetMapping(value = "/ratings-reviews")
     public ResponseEntity<RatingReviewResponse> getRatingsAndReviews(@RequestParam int sellerid) {

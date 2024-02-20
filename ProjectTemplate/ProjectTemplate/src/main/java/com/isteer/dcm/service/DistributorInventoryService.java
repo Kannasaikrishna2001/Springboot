@@ -19,11 +19,11 @@ public class DistributorInventoryService {
         return (stock != null) ? Integer.valueOf(stock.getStock_status()) : null;
     }*/
 
-    private static final Logger logger = LoggerFactory.getLogger(DistributorInventoryService.class);
+ /*   private static final Logger logger = LoggerFactory.getLogger(DistributorInventoryService.class);
 
     public ResponseEntity<String> getStockStatusResponseByUpc(Long upc) {
         try {
-            String stockStatus = distributorInventoryRepository.findStockStatusByUpc(upc);
+            String stockStatus = distributorInventoryRepository.findById(upc);
 
             if (stockStatus != null) {
                 logger.info("Stock status found for UPC {}: {}", upc, stockStatus);
@@ -40,5 +40,5 @@ public class DistributorInventoryService {
             logger.error("An error occurred while getting stock status for UPC {}: {}", upc, e.getMessage(), e);
             return ResponseEntity.status(500).body("Internal Server Error");
         }
-    }
+    }*/
 }

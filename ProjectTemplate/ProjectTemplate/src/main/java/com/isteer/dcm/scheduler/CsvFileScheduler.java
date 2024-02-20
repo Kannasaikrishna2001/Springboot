@@ -23,6 +23,5 @@ public class CsvFileScheduler {
     @Scheduled(cron = "${csv.file.parser.cron.expression}")
     public void parseCsvFile() {
         List<Production> productions = csvReaderService.readCsvFile(filePath);
-
     }
 }

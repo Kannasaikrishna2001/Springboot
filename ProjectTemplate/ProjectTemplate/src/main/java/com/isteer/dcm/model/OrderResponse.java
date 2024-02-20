@@ -7,7 +7,8 @@ public class OrderResponse {
     private String responseCode;
     @JsonProperty("ResponseMessage")
     private String responseMessage;
-    @JsonProperty("OrderStatus")
+
+    @JsonProperty("orderStatus")
     public static String orderStatus;
 
     public String getResponseCode() {

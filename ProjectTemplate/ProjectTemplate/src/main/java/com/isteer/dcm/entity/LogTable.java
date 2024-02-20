@@ -5,39 +5,39 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "logdata")
+@Table(name = "LOGDATA")
 public class LogTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "process_name")
+    @Column(name = "PROCESS_NAME")
     private String processName;
 
-    @Column(name = "start_date_time")
+    @Column(name = "START_DATE_TIME")
     private LocalDateTime startDateTime;
 
-    @Column(name = "end_date_time")
+    @Column(name = "END_DATE_TIME")
     private LocalDateTime end_date_time;
 
 
-    @Column(name = "process_id")
+    @Column(name = "PROCESS_ID")
     private String processId;
 
-    @Column(name = "error_message")
+    @Column(name = "ERROR_MESSAGE")
     private String errorMessage;
 
-    @Column(name = "stack_trace")
+    @Column(name = "STACK_TRACE")
     private String stackTrace;
 
-    @Column(name = "status")
+    @Column(name = "STATUS")
     private String status;
 
-    @Column(name = "request")
+    @Column(name = "REQUEST")
     private String request;
 
-    @Column(name = "response")
+    @Column(name = "RESPONSE")
     private String response;
 
     // Getters and setters for all fields

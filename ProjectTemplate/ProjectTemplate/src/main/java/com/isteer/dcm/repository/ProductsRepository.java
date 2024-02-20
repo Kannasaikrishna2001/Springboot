@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface ProductsRepository extends JpaRepository<Products, ProductCompositeKey> {
     Optional<Products> findById(ProductCompositeKey productId);
     //Optional<Products>findByStore_Id(BigDecimal store_Id);
-    Optional<Products>findBysellerid(Integer sellerId);
+    Optional<Products>findBySellerId(Integer sellerId);
 
 }

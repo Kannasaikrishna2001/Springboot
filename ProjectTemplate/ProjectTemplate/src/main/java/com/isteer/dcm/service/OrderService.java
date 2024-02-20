@@ -1,5 +1,6 @@
 package com.isteer.dcm.service;
 
+import com.isteer.dcm.compositekeys.ProductCompositeKey;
 import com.isteer.dcm.constants.DCMConstants;
 import com.isteer.dcm.entity.OrdersTable;
 import com.isteer.dcm.entity.Products;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -28,7 +30,12 @@ public class OrderService {
         List<OrderItem> orderItems = request.getPlaceOrder();
 
         for (OrderItem item : orderItems) {
-            Products product = productRepository.findById(item.getUpc()).orElse(null);
+
+            ProductCompositeKey productCompositeKey = new ProductCompositeKey();
+            productCompositeKey.setUpc(BigDecimal.valueOf(1234567890));
+            productCompositeKey.setStore_Id(BigDecimal.valueOf(123));
+           Optional<Products> product1 = productRepository.findById(productCompositeKey);
+           Products product = product1.get();
             if (product == null) {
                 response.setResponseCode(DCMConstants.NOT_FOUND);
                 response.setResponseMessage("Product not found");
@@ -45,8 +52,8 @@ public class OrderService {
             // Create order
             OrdersTable order = new OrdersTable();
             order.setOrderplaced_by(item.getDistributorId());
-            order.setProduct_id(item.getUpc());
-            order.setOrder_status(OrderResponse.orderStatus); // assuming 1 for placed status
+            order.setProduct_id("");
+            order.setOrderStatus(OrderResponse.orderStatus); // assuming 1 for placed status
             order.setUpdatetime(LocalDateTime.now());
             order.setManufacturer_id(product.getSellerid());
             orderRepository.save(order);

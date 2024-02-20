@@ -30,7 +30,7 @@ public class ReviewAndRating {
 
         List<DcmUsers> userData = dataInitializer.getDcmUsersList();
         List<UserRoles>roles=dataInitializer.getUserRoles();
-        List<DcmUsers> filteredUsers = userData.stream().filter(p ->p.getUser_id() == sellerid)
+        List<DcmUsers> filteredUsers = userData.stream().filter(p ->p.getUserId() == sellerid)
                 .collect(Collectors.toList());
 
         boolean isUserValid = !filteredUsers.isEmpty();
@@ -38,7 +38,7 @@ public class ReviewAndRating {
             DcmUsers user = filteredUsers.get(0);
 
             // Get roleId from the user
-            int roleId = user.getUser_role();
+            int roleId = user.getUserRole();
 
             // Filter UserRoles based on roleId
             List<UserRoles> filteredRoles = roles.stream().filter(p ->p.getRoleId() == roleId)
@@ -51,7 +51,7 @@ public class ReviewAndRating {
                 // Check if view_rating_and_review is 'Y'
                 if ("Y".equals(userRole.isViewRatingandReview())) {
                     logger.info(DCMConstants.VALID_MANUFACTURER);
-                    return productsRepository.findBysellerid(sellerid)
+                    return productsRepository.findBySellerId(sellerid)
                             .orElse(null);
                 } else {
                     logger.info(DCMConstants.ACCESS_DENIED);

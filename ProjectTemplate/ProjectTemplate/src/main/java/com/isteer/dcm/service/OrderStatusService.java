@@ -43,13 +43,13 @@ public class OrderStatusService {
             }
             List<DcmUsers> userData = dataInitializer.getDcmUsersList();
 
-            emailList = userData.stream().filter(DcmUser -> orderPlacedByList.contains(DcmUser.getUsername()))
-                    .map(DcmUsers::getUser_email).collect(Collectors.toList());
+
             orderPlacedByList = ordersList.stream().map(OrdersTable::getOrderplaced_by).collect(Collectors.toList());
 
+            emailList = userData.stream().filter(DcmUser -> orderPlacedByList.contains(DcmUser.getUserName()))
+                    .map(DcmUsers::getUserEmail).collect(Collectors.toList());
 
-
-            List<OrdersTable> placedOrders = ordersList.stream().filter(p -> p.getOrder_status().equals(DCMConstants.ORDERSTATUS_PLACED)
+            List<OrdersTable> placedOrders = ordersList.stream().filter(p -> p.getOrderStatus().equals(DCMConstants.ORDERSTATUS_PLACED)
                     && calculateTimeDifference(p.getUpdatetime(), LocalDateTime.now()) > 3)
                     .collect(Collectors.toList());
 
@@ -57,7 +57,7 @@ public class OrderStatusService {
             for (OrdersTable order : placedOrders) {
                 Long orderId = order.getOrder_id().longValue();
                 if (!emailSentMap.containsKey(orderId) || !emailSentMap.get(orderId)) {
-                    order.setOrder_status(DCMConstants.ORDERSTATUS_INPROGRESS);
+                    order.setOrderStatus(DCMConstants.ORDERSTATUS_INPROGRESS);
                     orderRepository.save(order);
                     sendEmailToDistributors(emailList, "Order Status Update", "Your order is now in progress.");
 
@@ -67,13 +67,13 @@ public class OrderStatusService {
 
 
 
-            List<OrdersTable> inProgressOrder = ordersList.stream().filter(p -> p.getOrder_status().equals(DCMConstants.ORDERSTATUS_INPROGRESS)
+            List<OrdersTable> inProgressOrder = ordersList.stream().filter(p -> p.getOrderStatus().equals(DCMConstants.ORDERSTATUS_INPROGRESS)
                     && calculateTimeDifference(p.getUpdatetime(), LocalDateTime.now()) > 6).collect(Collectors.toList());
             Set<String> processedEmails = new HashSet<>();
 
             try{
             inProgressOrder.forEach(order -> {
-                order.setOrder_status(DCMConstants.ORDERSTATUS_SHIPPED);
+                order.setOrderStatus(DCMConstants.ORDERSTATUS_SHIPPED);
                 String email = order.getOrderplaced_by(); // Assuming orderplaced_by is the email address
                 if (!processedEmails.contains(email)) {
                     processedEmails.add(email);
@@ -102,12 +102,12 @@ public class OrderStatusService {
             Set<String> processedEmailsShipped = new HashSet<>();
             try {
                 List<OrdersTable> shippedOrders = ordersList.stream()
-                        .filter(p -> p.getOrder_status().equals(DCMConstants.ORDERSTATUS_SHIPPED)
+                        .filter(p -> p.getOrderStatus().equals(DCMConstants.ORDERSTATUS_SHIPPED)
                                 && calculateTimeDifference(p.getUpdatetime(), LocalDateTime.now()) > 24)
                         .collect(Collectors.toList());
 
                 shippedOrders.forEach(order -> {
-                    order.setOrder_status(DCMConstants.ORDERSTATUS_COMPLETED);
+                    order.setOrderStatus(DCMConstants.ORDERSTATUS_COMPLETED);
 
                     // Check if the email has already been processed
                     String email = order.getOrderplaced_by();

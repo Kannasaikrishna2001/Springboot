@@ -8,13 +8,15 @@ import java.time.LocalDateTime;
 
 
     @Entity
-    @Table(name = "OrdersTable")
+    @Table(name = "ORDERSTABLE")
     public class OrdersTable {
 @Id
         private BigDecimal order_id;
         private String orderplaced_by;
-        private ProductCompositeKey product_id;
-        private String order_status;
+        private String product_id;
+
+        @Column(name="ORDER_STATUS")
+        private String orderStatus;
         private LocalDateTime updatetime;
         private BigDecimal manufacturer_id;
 
@@ -34,20 +36,20 @@ import java.time.LocalDateTime;
             this.orderplaced_by = orderplaced_by;
         }
 
-        public ProductCompositeKey getProduct_id() {
+        public String getProduct_id() {
             return product_id;
         }
 
-        public void setProduct_id(ProductCompositeKey product_id) {
+        public void setProduct_id(String product_id) {
             this.product_id = product_id;
         }
 
-        public String getOrder_status() {
-            return order_status;
+        public String getOrderStatus() {
+            return orderStatus;
         }
 
-        public void setOrder_status(String order_status) {
-            this.order_status = order_status;
+        public void setOrderStatus(String order_status) {
+            this.orderStatus = order_status;
         }
 
         public LocalDateTime getUpdatetime() {

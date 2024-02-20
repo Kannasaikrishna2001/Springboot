@@ -21,6 +21,8 @@ public class UpdateOrderStatusScheduler {
 
     @Scheduled(fixedRateString = "${checkStatus.time.interval}")
 
+
+    //implement logging and handle excpetions
    public void scheduleOrderStatusCheck() {
         orderStatusService.getOrderStatus();
         logger.info("Scheduled order status check completed.");

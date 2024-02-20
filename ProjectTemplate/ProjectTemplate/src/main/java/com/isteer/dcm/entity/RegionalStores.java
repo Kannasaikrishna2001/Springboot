@@ -3,31 +3,31 @@ package com.isteer.dcm.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "regionalStores")
+@Table(name = "REGIONALSTORE")
 public class RegionalStores {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "regionId")
+    @Column(name = "REGION_ID")
     private Long regionId;
 
-    @Column(name = "regionName")
+    @Column(name = "REGION_NAME")
     private String regionName;
 
-    @Column(name = "storeId")
+    @Column(name = "STORE_ID")
     private int storeId;
 
-    @Column(name = "storeName")
+    @Column(name = "STORE_NAME")
     private String storeName;
 
-    @Column(name = "storeStatus")
+    @Column(name = "STORE_STATUS")
     private String storeStatus;
 
-    @Column(name = "upstreamFileLocation")
+    @Column(name = "UPSTREAM_FILELOCATION")
     private String upstreamFileLocation;
 
-    @Column(name = "archiveLocation")
+    @Column(name = "ARCHIVE_LOCATION")
     private String archiveLocation;
 
     public Long getId() {
