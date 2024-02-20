@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,17 +30,10 @@ public class OrderStatusService {
     OnstartupDataInitializer dataInitializer;
 
     private List<String> orderPlacedByList;
-    private List<String> emailList;
-
-    public void getMailId() {
-        List<DcmUsers> userData = dataInitializer.getDcmUsersList();
-
-        //getOrderStatus();
-        emailList = userData.stream().filter(DcmUser -> orderPlacedByList.contains(DcmUser.getUsername()))
-                .map(DcmUsers::getUser_email).collect(Collectors.toList());
-    }
+    private final Map<Long, Boolean> emailSentMap = new HashMap<>();
 
     public void getOrderStatus() {
+       List<String> emailList;
         try {
             List<String> statusList = List.of(DCMConstants.ORDERSTATUS_PLACED, DCMConstants.ORDERSTATUS_INPROGRESS, DCMConstants.ORDERSTATUS_SHIPPED);
             List<OrdersTable> ordersList = orderRepository.findByOrderStatusIn(statusList);
@@ -48,34 +41,104 @@ public class OrderStatusService {
                 logger.warn("No orders found for processing.");
                 return;
             }
+            List<DcmUsers> userData = dataInitializer.getDcmUsersList();
+
+            emailList = userData.stream().filter(DcmUser -> orderPlacedByList.contains(DcmUser.getUsername()))
+                    .map(DcmUsers::getUser_email).collect(Collectors.toList());
             orderPlacedByList = ordersList.stream().map(OrdersTable::getOrderplaced_by).collect(Collectors.toList());
 
-            LocalDateTime now = LocalDateTime.now();
+
 
             List<OrdersTable> placedOrders = ordersList.stream().filter(p -> p.getOrder_status().equals(DCMConstants.ORDERSTATUS_PLACED)
                     && calculateTimeDifference(p.getUpdatetime(), LocalDateTime.now()) > 3)
                     .collect(Collectors.toList());
-            placedOrders.forEach(order -> { order.setOrder_status(DCMConstants.ORDERSTATUS_INPROGRESS); });
-            orderRepository.saveAll(placedOrders);
 
-            sendEmailToDistributors(emailList, "Order Status Update", "Your order is now in progress.");
+
+            for (OrdersTable order : placedOrders) {
+                Long orderId = order.getOrder_id().longValue();
+                if (!emailSentMap.containsKey(orderId) || !emailSentMap.get(orderId)) {
+                    order.setOrder_status(DCMConstants.ORDERSTATUS_INPROGRESS);
+                    orderRepository.save(order);
+                    sendEmailToDistributors(emailList, "Order Status Update", "Your order is now in progress.");
+
+                    emailSentMap.put(orderId, true);
+                }
+            }
+
+
 
             List<OrdersTable> inProgressOrder = ordersList.stream().filter(p -> p.getOrder_status().equals(DCMConstants.ORDERSTATUS_INPROGRESS)
                     && calculateTimeDifference(p.getUpdatetime(), LocalDateTime.now()) > 6).collect(Collectors.toList());
+            Set<String> processedEmails = new HashSet<>();
 
-
+            try{
             inProgressOrder.forEach(order -> {
                 order.setOrder_status(DCMConstants.ORDERSTATUS_SHIPPED);
-            });
-            orderRepository.saveAll(inProgressOrder);
+                String email = order.getOrderplaced_by(); // Assuming orderplaced_by is the email address
+                if (!processedEmails.contains(email)) {
+                    processedEmails.add(email);
 
-            List<OrdersTable> shippedOrders = ordersList.stream().filter(p -> p.getOrder_status().equals(DCMConstants.ORDERSTATUS_SHIPPED)
+                    // Save the order with updated status
+                    orderRepository.save(order);
+
+                    // Send email only if it's a unique email
+                    if (!processedEmails.contains(email)) {
+                        sendEmailToDistributors(Collections.singletonList(email),
+                                "Order Status Update", "Your order is Shipped.");
+                    }
+                }
+            });
+            } catch (Exception e) {
+                logger.error("Error updating orders to Shipped status or sending emails: " + e.getMessage(), e);
+                // Handle the exception or rethrow based on your requirements.
+            }
+          /*  });
+          orderRepository.saveAll(inProgressOrder);
+
+            sendEmailToDistributors(emailList, "Order Status Update", "Your order is Shipped.");
+
+*/
+
+            Set<String> processedEmailsShipped = new HashSet<>();
+            try {
+                List<OrdersTable> shippedOrders = ordersList.stream()
+                        .filter(p -> p.getOrder_status().equals(DCMConstants.ORDERSTATUS_SHIPPED)
+                                && calculateTimeDifference(p.getUpdatetime(), LocalDateTime.now()) > 24)
+                        .collect(Collectors.toList());
+
+                shippedOrders.forEach(order -> {
+                    order.setOrder_status(DCMConstants.ORDERSTATUS_COMPLETED);
+
+                    // Check if the email has already been processed
+                    String email = order.getOrderplaced_by();
+                    if (!processedEmailsShipped.contains(email)) {
+                        processedEmailsShipped.add(email);
+
+                        // Save the order with updated status
+                        orderRepository.save(order);
+
+                        // Send email only if it's a unique email
+                        if (!processedEmailsShipped.contains(email)) {
+                            sendEmailToDistributors(Collections.singletonList(email),
+                                    "Order Status Update", "Your order has been completed.");
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                logger.error("Error updating orders to Completed status or sending emails for shipped orders: " + e.getMessage(), e);
+                // Handle the exception or rethrow based on your requirements.
+            }
+
+          /*  List<OrdersTable> shippedOrders = ordersList.stream().filter(p -> p.getOrder_status().equals(DCMConstants.ORDERSTATUS_SHIPPED)
                     && calculateTimeDifference(p.getUpdatetime(), LocalDateTime.now()) > 24).collect(Collectors.toList());
 
             shippedOrders.forEach(order -> {
                 order.setOrder_status(DCMConstants.ORDERSTATUS_COMPLETED);
             });
             orderRepository.saveAll(shippedOrders);
+
+            sendEmailToDistributors(emailList, "Order Status Update", "Your order has been completed.");
+*/
         } catch (Exception e) {
             logger.error("Error while processing orders.", e);
         }

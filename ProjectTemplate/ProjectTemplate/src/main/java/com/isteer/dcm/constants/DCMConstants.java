@@ -25,4 +25,8 @@ public interface DCMConstants {
     String VALID_REGION_AND_STORE="VALID";
     String INVALID_REGION_AND_STORE="INVALID";
     String FAILURE ="Failure" ;
+    String VALID_MANUFACTURER="Valid Manufacturer";
+    String INVALID_MANUFACTURER="Invalid Manufacurer";
+    String ACCESS_DENIED="Access Denied";
+    String ROLE_NOT_FOUND="Role not found";
 }
