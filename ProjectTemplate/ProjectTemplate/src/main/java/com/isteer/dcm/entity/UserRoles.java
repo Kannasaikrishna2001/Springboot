@@ -10,10 +10,10 @@ public class UserRoles {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
 
-    @Column(name = "roleId")
+    @Column(name = "role_Id")
     private int roleId;
 
-    @Column(name = "roleName")
+    @Column(name = "role_Name")
     private String roleName;
 
     @Column(name = "exportSalesFile")

@@ -22,7 +22,7 @@ public class Production {
     private boolean competitorProductsAvailable;
     private String collectionStatus;
     private String stockStatus;
-
+    private int sellerId;
     // Constructors, getters, and setters
 
     public Production() {
@@ -46,6 +46,14 @@ public class Production {
         this.competitorProductsAvailable = competitorProductsAvailable;
         this.collectionStatus = collectionStatus;
         this.stockStatus = stockStatus;
+    }
+
+    public int getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(int sellerId) {
+        this.sellerId = sellerId;
     }
 
     public String getUpc() {

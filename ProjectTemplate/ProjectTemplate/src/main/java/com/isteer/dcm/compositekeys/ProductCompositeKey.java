@@ -10,7 +10,7 @@ import java.util.Objects;
 public class ProductCompositeKey implements Serializable {
 
     private BigDecimal upc;
-    private BigDecimal store_id;
+    private BigDecimal store_Id;
 
     public BigDecimal getUpc() {
         return upc;
@@ -20,12 +20,12 @@ public class ProductCompositeKey implements Serializable {
         this.upc = upc;
     }
 
-    public BigDecimal getStore_id() {
-        return store_id;
+    public BigDecimal getStore_Id() {
+        return store_Id;
     }
 
-    public void setStore_id(BigDecimal store_id) {
-        this.store_id = store_id;
+    public void setStore_Id(BigDecimal store_Id) {
+        this.store_Id = store_Id;
     }
 
     @Override
@@ -33,12 +33,12 @@ public class ProductCompositeKey implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductCompositeKey that = (ProductCompositeKey) o;
-        return Objects.equals(upc, that.upc) && Objects.equals(store_id, that.store_id);
+        return Objects.equals(upc, that.upc) && Objects.equals(store_Id, that.store_Id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(upc, store_id);
+        return Objects.hash(upc, store_Id);
     }
 
     public ProductCompositeKey() {
