@@ -13,6 +13,7 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface ProductsRepository extends JpaRepository<Products, ProductCompositeKey> {
     Optional<Products> findById(ProductCompositeKey productId);
-    Optional<Products>findByStore_Id(BigDecimal storeId);
+    //Optional<Products>findByStore_Id(BigDecimal store_Id);
+    Optional<Products>findBysellerid(Integer sellerId);
 
 }
