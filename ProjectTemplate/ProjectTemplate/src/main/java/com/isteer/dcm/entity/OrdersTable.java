@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
     @Entity
     @Table(name = "ORDERSTABLE")
     public class OrdersTable {
-@Id
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private BigDecimal order_id;
         private String orderplaced_by;
         private String product_id;

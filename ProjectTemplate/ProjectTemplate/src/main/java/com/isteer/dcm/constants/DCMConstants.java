@@ -29,4 +29,5 @@ public interface DCMConstants {
     String INVALID_MANUFACTURER="Invalid Manufacurer";
     String ACCESS_DENIED="Access Denied";
     String ROLE_NOT_FOUND="Role not found";
+    String ORDERSTATUS_ERROR = "Error while placing the order: ";
 }

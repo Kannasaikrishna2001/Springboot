@@ -1,5 +1,6 @@
 package com.isteer.dcm.compositekeys;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.Objects;
 @Embeddable
 public class ProductCompositeKey implements Serializable {
 
+    @Column(name="UPC")
     private BigDecimal upc;
     private BigDecimal store_Id;
 

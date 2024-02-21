@@ -2,14 +2,16 @@ package com.isteer.dcm.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class OrderResponse {
     @JsonProperty("ResponseCode")
     private String responseCode;
     @JsonProperty("ResponseMessage")
     private String responseMessage;
 
-    @JsonProperty("orderStatus")
-    public static String orderStatus;
+    @JsonProperty("orderStatusList")
+    private List<OrderStatus> orderStatusList;
 
     public String getResponseCode() {
         return responseCode;
@@ -27,11 +29,11 @@ public class OrderResponse {
         this.responseMessage = responseMessage;
     }
 
-    public String getOrderStatus() {
-        return orderStatus;
+    public List<OrderStatus> getOrderStatusList() {
+        return orderStatusList;
     }
 
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setOrderStatusList(List<OrderStatus> orderStatusList) {
+        this.orderStatusList = orderStatusList;
     }
 }
