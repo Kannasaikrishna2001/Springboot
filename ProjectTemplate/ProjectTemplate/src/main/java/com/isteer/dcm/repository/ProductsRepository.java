@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,6 +15,8 @@ import java.util.Optional;
 public interface ProductsRepository extends JpaRepository<Products, ProductCompositeKey> {
     Optional<Products> findById(ProductCompositeKey productId);
     //Optional<Products>findByStore_Id(BigDecimal store_Id);
-    Optional<Products>findBySellerId(Integer sellerId);
+    //Optional<Products>findBySellerId(Integer sellerId);
+
+    List<Products> findBySellerId(int sellerId);
 
 }

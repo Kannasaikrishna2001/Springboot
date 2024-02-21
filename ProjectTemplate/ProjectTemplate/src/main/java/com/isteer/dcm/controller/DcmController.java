@@ -1,9 +1,6 @@
 package com.isteer.dcm.controller;
 
-import com.isteer.dcm.entity.Products;
-import com.isteer.dcm.model.OrderRequest;
-import com.isteer.dcm.model.OrderResponse;
-import com.isteer.dcm.model.RatingReviewResponse;
+import com.isteer.dcm.model.*;
 //import com.isteer.dcm.service.OrderService;
 import com.isteer.dcm.service.OrderService;
 import com.isteer.dcm.service.ReviewAndRating;
@@ -13,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/dcm")
@@ -27,6 +22,9 @@ public class DcmController {
 
     @Autowired
     private ReviewAndRating reviewAndRating;
+
+  /*  @Autowired
+    private RatingReviewInvalid ratingReviewInvalid;*/
     /*
      * revisit the order response as it will not work in case if order is placed for multiple upcs
      * each upc should have its status seperately , whether the order is placed for that very upc or not
@@ -36,7 +34,7 @@ public class DcmController {
      * 3: check for all other possible scenarios as well apart from the two mentioned above
      * */
 
-   @PostMapping("/place-order")
+ /*   @PostMapping("/place-order")
     public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest request) {
         try {
             OrderResponse response = orderService.placeOrder(request);
@@ -47,26 +45,34 @@ public class DcmController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+*/
     @GetMapping(value = "/ratings-reviews")
-    public ResponseEntity<RatingReviewResponse> getRatingsAndReviews(@RequestParam int sellerid) {
+    public Response getRatingsAndReviews(@RequestParam int sellerid) {
+      Response product = reviewAndRating.sellerValidation(sellerid);
 
-        Products product = reviewAndRating.sellerValidation(sellerid);
-       // Products product = reviewAndRating.getProductBySellerId(BigDecimal.valueOf(sellerid));
+      return product;
 
-            if (product != null) {
-                RatingReviewResponse response = new RatingReviewResponse(
+     /* if (product != null) {
+           RatingReviewResponse response = new RatingReviewResponse(
 
-                        product.getProductsCompositeKeys().getUpc().toString(),
-                        product.getProduct_name(),
-                        product.getRating(),
-                        product.getUser_reviews()
-                );
+                    product.getProductsCompositeKeys().getUpc().toString(),
+                    product.getProduct_name(),
+                    product.getRating(),
+                    product.getUser_reviews()
+            );*/
 
-                return ResponseEntity.ok(response);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+         /*   return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+               RatingReviewResponse invalidResponse = new RatingReviewResponse();
+                invalidResponse.setMessage("Invalid manufacturer");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(invalidResponse);
+        }*/
+
+   /* public ResponseEntity<Response> getDistributorById(@RequestParam int sellerid) {
+        ResponseEntity<Response> responseEntity = reviewAndRating.sellerValidation(sellerid);
+        return responseEntity;
+    }*/
 
     }
 }
