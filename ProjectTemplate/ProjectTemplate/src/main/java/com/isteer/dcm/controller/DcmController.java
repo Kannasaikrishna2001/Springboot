@@ -36,20 +36,11 @@ public class DcmController {
      * 3: check for all other possible scenarios as well apart from the two mentioned above
      * */
 
-    @PostMapping("/place-order")
+   @PostMapping("/place-order")
     public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest request) {
         try {
-            // Log distributorId and productId if they are not null
-            String distributorId = request.getDistributorId() != null ? request.getDistributorId() : "Unknown";
-            String productId = request.getProductId() != null ? request.getProductId().toString() : "Unknown";
-
-            // Log the request details
-            logger.info("Order placed successfully for distributor: {}, product: {}", distributorId, productId);
-
-            // Place the order
             OrderResponse response = orderService.placeOrder(request);
-
-            // Return the response
+            logger.info("Order placed successfully for distributor: {}, product: {}", request.getDistributorId(), request.getProductId());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Error occurred while placing order", e);

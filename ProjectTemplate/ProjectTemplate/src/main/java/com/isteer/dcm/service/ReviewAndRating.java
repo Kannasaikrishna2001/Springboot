@@ -4,16 +4,18 @@ import com.isteer.dcm.constants.DCMConstants;
 import com.isteer.dcm.entity.DcmUsers;
 import com.isteer.dcm.entity.Products;
 import com.isteer.dcm.entity.UserRoles;
+import com.isteer.dcm.model.RatingReviewResponse;
+import com.isteer.dcm.model.Response;
 import com.isteer.dcm.repository.ProductsRepository;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,11 +28,13 @@ public class ReviewAndRating {
     @Autowired
     OnstartupDataInitializer dataInitializer;
 
-    public Products sellerValidation(int sellerid) {
+    public Response sellerValidation(int sellerid) {
 
+        Response response = new Response();
+        List<RatingReviewResponse> responseList = new ArrayList<>();
         List<DcmUsers> userData = dataInitializer.getDcmUsersList();
-        List<UserRoles>roles=dataInitializer.getUserRoles();
-        List<DcmUsers> filteredUsers = userData.stream().filter(p ->p.getUserId() == sellerid)
+        List<UserRoles> roles = dataInitializer.getUserRoles();
+        List<DcmUsers> filteredUsers = userData.stream().filter(p -> p.getUserId() == sellerid)
                 .collect(Collectors.toList());
 
         boolean isUserValid = !filteredUsers.isEmpty();
@@ -41,7 +45,7 @@ public class ReviewAndRating {
             int roleId = user.getUserRole();
 
             // Filter UserRoles based on roleId
-            List<UserRoles> filteredRoles = roles.stream().filter(p ->p.getRoleId() == roleId)
+            List<UserRoles> filteredRoles = roles.stream().filter(p -> p.getRoleId() == roleId)
                     .collect(Collectors.toList());
 
             // Check if there is a role with the specified roleId
@@ -51,23 +55,69 @@ public class ReviewAndRating {
                 // Check if view_rating_and_review is 'Y'
                 if ("Y".equals(userRole.isViewRatingandReview())) {
                     logger.info(DCMConstants.VALID_MANUFACTURER);
-                    return productsRepository.findBySellerId(sellerid)
-                            .orElse(null);
+                    List<Products> products = productsRepository.findBySellerId(sellerid);
+                    if (!products .isEmpty()) {
+                        for(Products prod:products){
+                            responseList.add(new RatingReviewResponse(prod.getProductsCompositeKeys().getUpc().toString(),
+                                    prod.getProduct_name(),prod.getRating(),prod.getUser_reviews()));
+                        }
+
+                        response.setResponseCode("Success");
+                        response.setResponseMessage("Seller validation successful");
+                        response.setRatingReviewResponses(responseList);
+                      //  response.setRatingReviewResponses((List<RatingReviewResponse>) products);
+
+                        // Add other necessary data to the response if needed
+                       // return ResponseEntity.ok(response);
+
+
+                    } else {
+                        response.setResponseCode("Not Found");
+                        response.setResponseMessage("No products found for the seller");
+                        return (response);
+                    }
                 } else {
                     logger.info(DCMConstants.ACCESS_DENIED);
+                    response.setResponseCode("Access Denied");
+                    response.setResponseMessage(DCMConstants.ACCESS_DENIED);
                 }
             } else {
                 // Role not found for the specified roleId
                 logger.info(DCMConstants.ROLE_NOT_FOUND);
+                response.setResponseCode("Role Not Found");
+                response.setResponseMessage(DCMConstants.ROLE_NOT_FOUND);
             }
         } else {
             logger.info(DCMConstants.INVALID_MANUFACTURER);
+            response.setResponseCode("Invalid Manufacturer");
+            response.setResponseMessage(DCMConstants.INVALID_MANUFACTURER);
         }
-        return null;
+
+        return (response);
     }
+}
 
 
-     /*   boolean isUserValid = userData.stream().anyMatch(p -> p.getUser_id() == sellerid);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*   boolean isUserValid = userData.stream().anyMatch(p -> p.getUser_id() == sellerid);
         if (isUserValid) {
             logger.info(DCMConstants.VALID_MANUFACTURER);
             return productsRepository.findBysellerid(sellerid)
@@ -76,8 +126,8 @@ public class ReviewAndRating {
             logger.info(DCMConstants.INVALID_MANUFACTURER);
         }
         return null;*/
-    }
 
+//}
 
    /* public Products getProductBySellerId(BigDecimal sellerid) {
         return productsRepository.findBysellerid(sellerid)

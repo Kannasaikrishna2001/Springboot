@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,6 +20,8 @@ public interface ProductsRepository extends JpaRepository<Products, ProductCompo
 
   Optional<Products> fetchByUpc(@RequestParam("UPC") BigDecimal upc);
     //Optional<Products>findByStore_Id(BigDecimal store_Id);
-    Optional<Products>findBySellerId(Integer sellerId);
+    //Optional<Products>findBySellerId(Integer sellerId);
+
+    List<Products> findBySellerId(int sellerId);
 
 }

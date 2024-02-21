@@ -8,6 +8,7 @@ public class RatingReviewResponse {
     private BigDecimal rating;
     private String review;
 
+
     public RatingReviewResponse(String upc, String productName, BigDecimal rating, String review) {
         this.upc = upc;
         this.productName = productName;
@@ -46,6 +47,7 @@ public class RatingReviewResponse {
     public void setReview(String review) {
         this.review = review;
     }
+
 
     @Override
     public String toString() {
