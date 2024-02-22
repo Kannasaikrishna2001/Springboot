@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Response {
+public class ProductReviewRoot {
     @JsonProperty("ResponseCode")
     private String responseCode;
     @JsonProperty("ResponseMessage")
     private String responseMessage;
-   // @JsonProperty("RatingReviewResponse")
+    @JsonProperty("Ratings and Reviews ")
     private List<RatingReviewResponse> ratingReviewResponses;
 
     public List<RatingReviewResponse> getRatingReviewResponses() {

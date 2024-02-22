@@ -1,10 +1,14 @@
 package com.isteer.dcm.controller;
 
-import com.isteer.dcm.entity.Products;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.isteer.dcm.constants.DCMConstants;
+import com.isteer.dcm.entity.UserRoles;
 import com.isteer.dcm.model.OrderRequest;
 import com.isteer.dcm.model.OrderResponse;
-import com.isteer.dcm.model.RatingReviewResponse;
 //import com.isteer.dcm.service.OrderService;
+import com.isteer.dcm.model.ProductReviewRoot;
+import com.isteer.dcm.model.RatingReviewResponse;
+import com.isteer.dcm.service.OnstartupDataInitializer;
 import com.isteer.dcm.service.OrderService;
 import com.isteer.dcm.service.ReviewAndRating;
 import org.slf4j.Logger;
@@ -14,7 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/dcm")
@@ -27,14 +32,9 @@ public class DcmController {
 
     @Autowired
     private ReviewAndRating reviewAndRating;
-    /*
-     * revisit the order response as it will not work in case if order is placed for multiple upcs
-     * each upc should have its status seperately , whether the order is placed for that very upc or not
-     * consider restructuring the response model by keeping upc and order status as two elements inside a chile model which it iterative and have one root model class as the response
-     * the code will not work in all of the below scenarios
-     * 1: when one of the upcs is present and one or more is not
-     * 3: check for all other possible scenarios as well apart from the two mentioned above
-     * */
+
+    @Autowired
+    OnstartupDataInitializer onstartupDataInitializer;
 
    @PostMapping("/place-order")
     public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest request) {
@@ -48,25 +48,50 @@ public class DcmController {
         }
     }
 
-    @GetMapping(value = "/ratings-reviews")
-    public ResponseEntity<RatingReviewResponse> getRatingsAndReviews(@RequestParam int sellerid) {
+  /*  @GetMapping(value = "/ratings-reviews")
+    public ProductReviewRoot getRatingsAndReviews(@RequestParam int sellerid) {
 
-        Products product = reviewAndRating.sellerValidation(sellerid);
+        ProductReviewRoot productReviewRoot = reviewAndRating.sellerValidation(sellerid);
        // Products product = reviewAndRating.getProductBySellerId(BigDecimal.valueOf(sellerid));
 
-            if (product != null) {
-                RatingReviewResponse response = new RatingReviewResponse(
 
-                        product.getProductsCompositeKeys().getUpc().toString(),
-                        product.getProduct_name(),
-                        product.getRating(),
-                        product.getUser_reviews()
-                );
-
-                return ResponseEntity.ok(response);
+                return ResponseEntity.ok(productReviewRoot);
             } else {
                 return ResponseEntity.notFound().build();
             }
 
+    }*/
+
+        @GetMapping("/ratings-reviews")
+    public @ResponseBody
+    ProductReviewRoot getRatingsAndReviews(@RequestParam Integer sellerId) {
+        ProductReviewRoot productReviewRoot = new ProductReviewRoot();
+        try {
+            List<UserRoles> dcmUsers = onstartupDataInitializer.getUserRoles().stream().filter
+                    (p -> (p.getRoleId() == sellerId && p.getRoleName()
+                    .equalsIgnoreCase(DCMConstants.USER_MANUFACTURER)))
+                    .collect(Collectors.toList());
+            if (dcmUsers.isEmpty()) {
+                productReviewRoot.setResponseCode(DCMConstants.Forbidden);
+                productReviewRoot.setResponseMessage(DCMConstants.INVALID_USER);
+            } else {
+                List<RatingReviewResponse> product = orderService.reveiwProducts(sellerId);
+                if (!product.isEmpty()) {
+                    productReviewRoot.setResponseCode(DCMConstants.SUCCESS);
+                    productReviewRoot.setResponseMessage(DCMConstants.SUCCESS_RESP_MSG);
+                    productReviewRoot.setRatingReviewResponses(product);
+                } else {
+
+                    productReviewRoot.setResponseCode(DCMConstants.SUCCESS);
+                    productReviewRoot.setResponseMessage(DCMConstants.NO_DATA_FOUND);
+                }
+            }
+        } catch (Exception ex) {
+            productReviewRoot.setResponseCode("203");
+            productReviewRoot.setResponseMessage("EXCEPTION WAS THROWN");
+        }
+        return productReviewRoot;
     }
+
+
 }

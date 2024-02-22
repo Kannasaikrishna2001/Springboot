@@ -1,15 +1,26 @@
 package com.isteer.dcm.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class RatingReviewResponse {
+    @JsonProperty("UPC")
     private String upc;
+
+    @JsonProperty("PRODUCT NAME")
     private String productName;
-    private BigDecimal rating;
+
+    @JsonProperty("RATING")
+    private String rating;
+
+    @JsonProperty("USER REVIEWS")
     private String review;
 
+    public RatingReviewResponse() {
+    }
 
-    public RatingReviewResponse(String upc, String productName, BigDecimal rating, String review) {
+    public RatingReviewResponse(String upc, String productName, String rating, String review) {
         this.upc = upc;
         this.productName = productName;
         this.rating = rating;
@@ -32,11 +43,11 @@ public class RatingReviewResponse {
         this.productName = productName;
     }
 
-    public BigDecimal getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(BigDecimal rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 

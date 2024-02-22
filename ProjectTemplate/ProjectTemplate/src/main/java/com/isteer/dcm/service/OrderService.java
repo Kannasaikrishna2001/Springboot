@@ -4,10 +4,7 @@ import com.isteer.dcm.compositekeys.ProductCompositeKey;
 import com.isteer.dcm.constants.DCMConstants;
 import com.isteer.dcm.entity.OrdersTable;
 import com.isteer.dcm.entity.Products;
-import com.isteer.dcm.model.OrderItem;
-import com.isteer.dcm.model.OrderRequest;
-import com.isteer.dcm.model.OrderResponse;
-import com.isteer.dcm.model.OrderStatus;
+import com.isteer.dcm.model.*;
 import com.isteer.dcm.repository.OrderRepository;
 import com.isteer.dcm.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +71,31 @@ public class OrderService {
         response.setOrderStatusList(orderStatusList);
         return response;
     }
+
+    public List<RatingReviewResponse> reveiwProducts(Integer sellerId) {
+        List<RatingReviewResponse> productReviews = new ArrayList<>();
+        try {
+            //  List<Products> productsList2 = productRepository.findByInventorySize(1);
+            List<Products> productsList = productRepository.findBySellerId(sellerId);
+            if (!productsList.isEmpty() && productsList.size() > 0) {
+                for (Products prod : productsList) {
+                    RatingReviewResponse prdReview = new RatingReviewResponse();
+                    prdReview.setUpc(String.valueOf(prod.getProductsCompositeKeys().getUpc()));
+                    prdReview.setProductName(prod.getProduct_name());
+                    prdReview.setRating(String.valueOf(prod.getRating()));
+                    prdReview.setReview(prod.getUser_reviews());
+                    productReviews.add(prdReview);
+                }
+            } else {
+                throw new RuntimeException("NO UPCS FOUND FOR THIS MANUFACTURER");
+            }
+        } catch (Exception excpetion) {
+            excpetion.printStackTrace();
+            throw excpetion;
+        }
+        return productReviews;
+    }
+
 }
 
 

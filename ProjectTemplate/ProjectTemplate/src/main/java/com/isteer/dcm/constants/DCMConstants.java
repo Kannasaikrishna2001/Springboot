@@ -30,4 +30,8 @@ public interface DCMConstants {
     String ACCESS_DENIED="Access Denied";
     String ROLE_NOT_FOUND="Role not found";
     String ORDERSTATUS_ERROR = "Error while placing the order: ";
+    String INVALID_USER="INVALID USER";
+    String NO_DATA_FOUND="NO DATA FOUND";
+    String SUCCESS_RESP_MSG="SUCCESS";
+    String USER_MANUFACTURER="MANUFACTURER";
 }

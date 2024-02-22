@@ -5,13 +5,11 @@ import com.isteer.dcm.entity.DcmUsers;
 import com.isteer.dcm.entity.Products;
 import com.isteer.dcm.entity.UserRoles;
 import com.isteer.dcm.model.RatingReviewResponse;
-import com.isteer.dcm.model.Response;
+import com.isteer.dcm.model.ProductReviewRoot;
 import com.isteer.dcm.repository.ProductsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,9 +26,9 @@ public class ReviewAndRating {
     @Autowired
     OnstartupDataInitializer dataInitializer;
 
-    public Response sellerValidation(int sellerid) {
+    public ProductReviewRoot sellerValidation(int sellerid) {
 
-        Response response = new Response();
+        ProductReviewRoot productReviewRoot = new ProductReviewRoot();
         List<RatingReviewResponse> responseList = new ArrayList<>();
         List<DcmUsers> userData = dataInitializer.getDcmUsersList();
         List<UserRoles> roles = dataInitializer.getUserRoles();
@@ -59,12 +57,12 @@ public class ReviewAndRating {
                     if (!products .isEmpty()) {
                         for(Products prod:products){
                             responseList.add(new RatingReviewResponse(prod.getProductsCompositeKeys().getUpc().toString(),
-                                    prod.getProduct_name(),prod.getRating(),prod.getUser_reviews()));
+                                    prod.getProduct_name(),prod.getRating().toString(),prod.getUser_reviews()));
                         }
 
-                        response.setResponseCode("Success");
-                        response.setResponseMessage("Seller validation successful");
-                        response.setRatingReviewResponses(responseList);
+                        productReviewRoot.setResponseCode("Success");
+                        productReviewRoot.setResponseMessage("Seller validation successful");
+                        productReviewRoot.setRatingReviewResponses(responseList);
                       //  response.setRatingReviewResponses((List<RatingReviewResponse>) products);
 
                         // Add other necessary data to the response if needed
@@ -72,28 +70,28 @@ public class ReviewAndRating {
 
 
                     } else {
-                        response.setResponseCode("Not Found");
-                        response.setResponseMessage("No products found for the seller");
-                        return (response);
+                        productReviewRoot.setResponseCode("Not Found");
+                        productReviewRoot.setResponseMessage("No products found for the seller");
+                        return (productReviewRoot);
                     }
                 } else {
                     logger.info(DCMConstants.ACCESS_DENIED);
-                    response.setResponseCode("Access Denied");
-                    response.setResponseMessage(DCMConstants.ACCESS_DENIED);
+                    productReviewRoot.setResponseCode("Access Denied");
+                    productReviewRoot.setResponseMessage(DCMConstants.ACCESS_DENIED);
                 }
             } else {
                 // Role not found for the specified roleId
                 logger.info(DCMConstants.ROLE_NOT_FOUND);
-                response.setResponseCode("Role Not Found");
-                response.setResponseMessage(DCMConstants.ROLE_NOT_FOUND);
+                productReviewRoot.setResponseCode("Role Not Found");
+                productReviewRoot.setResponseMessage(DCMConstants.ROLE_NOT_FOUND);
             }
         } else {
             logger.info(DCMConstants.INVALID_MANUFACTURER);
-            response.setResponseCode("Invalid Manufacturer");
-            response.setResponseMessage(DCMConstants.INVALID_MANUFACTURER);
+            productReviewRoot.setResponseCode("Invalid Manufacturer");
+            productReviewRoot.setResponseMessage(DCMConstants.INVALID_MANUFACTURER);
         }
 
-        return (response);
+        return (productReviewRoot);
     }
 }
 
