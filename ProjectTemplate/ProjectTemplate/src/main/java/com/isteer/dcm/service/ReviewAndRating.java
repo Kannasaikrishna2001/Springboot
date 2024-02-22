@@ -30,6 +30,7 @@ public class ReviewAndRating {
 
         ProductReviewRoot productReviewRoot = new ProductReviewRoot();
         List<RatingReviewResponse> responseList = new ArrayList<>();
+
         List<DcmUsers> userData = dataInitializer.getDcmUsersList();
         List<UserRoles> roles = dataInitializer.getUserRoles();
         List<DcmUsers> filteredUsers = userData.stream().filter(p -> p.getUserId() == sellerid)

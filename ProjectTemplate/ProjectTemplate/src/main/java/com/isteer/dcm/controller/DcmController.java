@@ -1,8 +1,13 @@
 package com.isteer.dcm.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.isteer.dcm.constants.DCMConstants;
 import com.isteer.dcm.entity.UserRoles;
-import com.isteer.dcm.model.*;
+import com.isteer.dcm.model.OrderRequest;
+import com.isteer.dcm.model.OrderResponse;
+//import com.isteer.dcm.service.OrderService;
+import com.isteer.dcm.model.ProductReviewRoot;
+import com.isteer.dcm.model.RatingReviewResponse;
 import com.isteer.dcm.service.OnstartupDataInitializer;
 import com.isteer.dcm.service.OrderService;
 import com.isteer.dcm.service.ReviewAndRating;
@@ -30,39 +35,15 @@ public class DcmController {
 
     @Autowired
     OnstartupDataInitializer onstartupDataInitializer;
-    /*
-         * revisit the order response as it will not work in case if order is placed for multiple upcs
-         * each upc should have its status separately , whether the order is placed for that very upc or not
-         * consider restructuring the response model by keeping upc and order status as two elements inside a child model which it iterative and have one root model class as the response
-         * the code will not work in all of the below scenarios
-         * 1: when one of the upcs is present and one or more is not
-         * 2: Validate the manufacturerid
-         * */
+
     @PostMapping("/place-order")
     public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest request) {
         try {
-            // Log the received request for debugging purposes
-            logger.info(DCMConstants.ORDER_REQUEST, request);
-
             OrderResponse response = orderService.placeOrder(request);
-
-            if (response != null) {
-                List<OrderStatus> orderStatusList = response.getOrderStatusList();
-                for (OrderStatus orderStatus : orderStatusList) {
-                    if (DCMConstants.ORDERSTATUS_PLACED.equals(orderStatus.getOrderStatus())) {
-                        // Log successful order placement
-                        logger.info("{} {}, product: {}, UPC: {}, Status: {}",
-                                DCMConstants.ORDER_MSG_SUCCESS, request.getDistributorId(), orderStatus.getUpc(), orderStatus.getOrderStatus());
-                    } else {
-                        // Log failed order placement
-                        logger.error("{}, product: {}, UPC: {}, Error: {}",
-                                DCMConstants.ORDERSTATUS_ERROR, request.getDistributorId(), orderStatus.getUpc(), orderStatus.getOrderStatus());
-                    }
-                }
-            }
+            logger.info("Order placed successfully for distributor: {}, product: {}", request.getDistributorId(), request.getProductId());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error(DCMConstants.ORDERSTATUS_ERROR, e);
+            logger.error("Error occurred while placing order", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -82,27 +63,34 @@ public class DcmController {
     }*/
 
     @GetMapping("/ratings-reviews")
-    public @ResponseBody
-    ProductReviewRoot getRatingsAndReviews(@RequestParam Integer sellerId) {
+    public @ResponseBody ProductReviewRoot getRatingsAndReviews(@RequestParam Integer sellerId) {
         ProductReviewRoot productReviewRoot = new ProductReviewRoot();
         try {
-            List<UserRoles> dcmUsers = onstartupDataInitializer.getUserRoles().stream().filter
-                    (p -> (p.getRoleId() == sellerId && p.getRoleName()
-                            .equalsIgnoreCase(DCMConstants.USER_MANUFACTURER)))
+            List<UserRoles> dcmUsers = onstartupDataInitializer.getUserRoles().stream()
+                    .filter(p -> (p.getRoleId() == sellerId && p.getRoleName().equalsIgnoreCase(DCMConstants.USER_MANUFACTURER)))
                     .collect(Collectors.toList());
+
             if (dcmUsers.isEmpty()) {
                 productReviewRoot.setResponseCode(DCMConstants.Forbidden);
                 productReviewRoot.setResponseMessage(DCMConstants.INVALID_USER);
             } else {
-                List<RatingReviewResponse> product = orderService.reveiwProducts(sellerId);
-                if (!product.isEmpty()) {
-                    productReviewRoot.setResponseCode(DCMConstants.SUCCESS);
-                    productReviewRoot.setResponseMessage(DCMConstants.SUCCESS_RESP_MSG);
-                    productReviewRoot.setRatingReviewResponses(product);
-                } else {
+                //UserRoles userRole = dcmUsers.get(0);
+                for (UserRoles userRole : dcmUsers) {
+                    if(userRole.isViewRatingandReview().equals("N"))   {
+                        productReviewRoot.setResponseCode(DCMConstants.ACCESS_DENIED);
+                        productReviewRoot.setResponseMessage(DCMConstants.ACCESS_DENIED);
+                    } else {
+                        List<RatingReviewResponse> product = orderService.reveiwProducts(sellerId);
 
-                    productReviewRoot.setResponseCode(DCMConstants.SUCCESS);
-                    productReviewRoot.setResponseMessage(DCMConstants.NO_DATA_FOUND);
+                        if (!product.isEmpty()) {
+                            productReviewRoot.setResponseCode(DCMConstants.SUCCESS);
+                            productReviewRoot.setResponseMessage(DCMConstants.SUCCESS_RESP_MSG);
+                            productReviewRoot.setRatingReviewResponses(product);
+                        } else {
+                            productReviewRoot.setResponseCode(DCMConstants.SUCCESS);
+                            productReviewRoot.setResponseMessage(DCMConstants.NO_DATA_FOUND);
+                        }
+                    }
                 }
             }
         } catch (Exception ex) {
