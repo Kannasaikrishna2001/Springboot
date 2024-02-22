@@ -41,7 +41,7 @@ public class OrderService {
 
                 // Validate order size against inventory size
                 if (item.getOrderSize().compareTo(product.getInventory_size().divide(BigDecimal.valueOf(2))) > 0) {
-                    orderStatus.setOrderStatus(DCMConstants.ORDERSTATUS_ERROR + "Inventory size not sufficient for order");
+                    orderStatus.setOrderStatus(DCMConstants.ORDERSTATUS_ERROR + DCMConstants.INSUFFICIENT_INVENTORY);
                 } else {
                     // Create order
                     OrdersTable order = new OrdersTable();
@@ -60,14 +60,12 @@ public class OrderService {
                     orderStatus.setOrderStatus(DCMConstants.ORDERSTATUS_PLACED);
                 }
             } else {
-                orderStatus.setOrderStatus(DCMConstants.ORDERSTATUS_ERROR + "Product not found");
+                orderStatus.setOrderStatus(DCMConstants.ORDERSTATUS_ERROR + DCMConstants.PRODUCT_NOT_FOUND);
             }
 
             orderStatusList.add(orderStatus);
         }
 
-        response.setResponseCode(DCMConstants.SUCCESS);
-        response.setResponseMessage("Orders placed successfully");
         response.setOrderStatusList(orderStatusList);
         return response;
     }
@@ -87,7 +85,7 @@ public class OrderService {
                     productReviews.add(prdReview);
                 }
             } else {
-                throw new RuntimeException("NO UPCS FOUND FOR THIS MANUFACTURER");
+                throw new RuntimeException(DCMConstants.NO_UPCS_FOUND);
             }
         } catch (Exception excpetion) {
             excpetion.printStackTrace();

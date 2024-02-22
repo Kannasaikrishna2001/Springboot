@@ -14,6 +14,9 @@ public interface DCMConstants {
     String ORDERSTATUS_COMPLETED="COMPLETED";
     String ORDERSTATUS_NEW="NEW";
     String ORDER_MSG_SUCCESS="ORDER PLACED SUCCESSFULLY";
+    String ORDER_REQUEST="Received place order request:";
+    String INSUFFICIENT_INVENTORY="Inventory size not sufficient for order";
+    String PRODUCT_NOT_FOUND="Product not found";
     String MAIL_SMTP_HOST = "mail.smtp.host";
     String MAIL_SMTP_PORT = "mail.smtp.port";
     String MAIL_SMTP_AUTH = "mail.smtp.auth";
@@ -23,6 +26,8 @@ public interface DCMConstants {
     String EMAIL_SUCCESS_MESSAGE="Message sent successfully";
     String EMAIL_ERROR_MESSAGE="Error while sending email";
     String VALID_REGION_AND_STORE="VALID";
+
+    String NO_UPCS_FOUND="NO UPCS FOUND FOR THIS MANUFACTURER";
     String INVALID_REGION_AND_STORE="INVALID";
     String FAILURE ="Failure" ;
     String VALID_MANUFACTURER="Valid Manufacturer";
