@@ -3,11 +3,8 @@ package com.isteer.dcm.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.isteer.dcm.constants.DCMConstants;
 import com.isteer.dcm.entity.UserRoles;
-import com.isteer.dcm.model.OrderRequest;
-import com.isteer.dcm.model.OrderResponse;
+import com.isteer.dcm.model.*;
 //import com.isteer.dcm.service.OrderService;
-import com.isteer.dcm.model.ProductReviewRoot;
-import com.isteer.dcm.model.RatingReviewResponse;
 import com.isteer.dcm.service.OnstartupDataInitializer;
 import com.isteer.dcm.service.OrderService;
 import com.isteer.dcm.service.ReviewAndRating;
@@ -39,11 +36,28 @@ public class DcmController {
     @PostMapping("/place-order")
     public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest request) {
         try {
+            // Log the received request for debugging purposes
+            logger.info(DCMConstants.ORDER_REQUEST, request);
+
             OrderResponse response = orderService.placeOrder(request);
-            logger.info("Order placed successfully for distributor: {}, product: {}", request.getDistributorId(), request.getProductId());
+
+            if (response != null) {
+                List<OrderStatus> orderStatusList = response.getOrderStatusList();
+                for (OrderStatus orderStatus : orderStatusList) {
+                    if (DCMConstants.ORDERSTATUS_PLACED.equals(orderStatus.getOrderStatus())) {
+                        // Log successful order placement
+                        logger.info("{} {}, product: {}, UPC: {}, Status: {}",
+                                DCMConstants.ORDER_MSG_SUCCESS, request.getDistributorId(), orderStatus.getUpc(), orderStatus.getOrderStatus());
+                    } else {
+                        // Log failed order placement
+                        logger.error("{}, product: {}, UPC: {}, Error: {}",
+                                DCMConstants.ORDERSTATUS_ERROR, request.getDistributorId(), orderStatus.getUpc(), orderStatus.getOrderStatus());
+                    }
+                }
+            }
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Error occurred while placing order", e);
+            logger.error(DCMConstants.ORDERSTATUS_ERROR, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
