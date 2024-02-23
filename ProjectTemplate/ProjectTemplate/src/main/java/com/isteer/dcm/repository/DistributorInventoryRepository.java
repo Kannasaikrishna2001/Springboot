@@ -11,9 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface DistributorInventoryRepository extends JpaRepository<DistributorInventory, Long> {
-    // Update the parameter type to Long
-    //DistributorInventory findByUpc(Long upc);
 
-  //  @Query("SELECT d.stock_status FROM DistributorInventory d WHERE d.upc = :upc")
-    Optional<DistributorInventory> findById(Long upc);
+  List<DistributorInventory> findByDistributorId(Long distributorId);
 }
