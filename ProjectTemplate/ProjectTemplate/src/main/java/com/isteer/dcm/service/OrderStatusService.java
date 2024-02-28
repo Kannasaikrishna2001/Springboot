@@ -34,7 +34,7 @@ public class OrderStatusService {
     private final Map<Long, Boolean> emailSentMap = new HashMap<>();
 
     public void getOrderStatus() {
-      //  List<String> emailList;
+        //  List<String> emailList;
         try {
             List<String> statusList = List.of(DCMConstants.ORDERSTATUS_PLACED, DCMConstants.ORDERSTATUS_INPROGRESS, DCMConstants.ORDERSTATUS_SHIPPED);
             List<OrdersTable> ordersList = orderRepository.findByOrderStatusIn(statusList);
@@ -61,16 +61,7 @@ public class OrderStatusService {
                 sendEmailToDistributors("ravi.narayanaswamy@isteer.com", "ORDER INPROGRESS",
                         "Your order is now in progress.");
             }
-            for (OrdersTable order : placedOrders) {
-                Long orderId = order.getOrder_id().longValue();
-                if (!emailSentMap.containsKey(orderId) || !emailSentMap.get(orderId)) {
-                    order.setOrderStatus(DCMConstants.ORDERSTATUS_INPROGRESS);
-                    orderRepository.save(order);
-                    sendEmailToDistributors("ravi.narayanaswamy@isteer.com", "Order Status Update", "Your order is now in progress.");
 
-                    emailSentMap.put(orderId, true);
-                }
-            }
 
            /* List<OrdersTable> inProgressOrder = ordersList.stream().filter(p -> p.getOrderStatus().equals(DCMConstants.ORDERSTATUS_INPROGRESS)
                     && calculateTimeDifference(p.getUpdatetime().toLocalDateTime(), LocalDateTime.now()) > 6).collect(Collectors.toList());
@@ -116,9 +107,9 @@ public class OrderStatusService {
     }
 
     private void sendEmailToDistributors(String emailList, String subject, String body) {
-       //  for (String toEmail : emailList) {
+        //  for (String toEmail : emailList) {
         dcmUtility.sendEmail(emailList, subject, createHtmlBody(body));
-         //}
+        //}
     }
     public static String createHtmlBody(String emailBody) {
         return "<!DOCTYPE html>" +
@@ -129,7 +120,7 @@ public class OrderStatusService {
                 "<body>" +
                 "<h2>"+emailBody+"</h2>" +
                 "<p>DEAR DISTRIBUTOR</p>" +
-               // "<p>YOUR ORDER HAS BEEN  AND WILL BE MOVED TO STATE SHORTLY. YOU WILL BE UPDATED WHENEVER THERE IS ANY PROGRESS.</p>" +
+                // "<p>YOUR ORDER HAS BEEN  AND WILL BE MOVED TO STATE SHORTLY. YOU WILL BE UPDATED WHENEVER THERE IS ANY PROGRESS.</p>" +
                 "<p>Your order has been processed and will be moved to the next state shortly. " +
                 "You will be updated whenever there is any progress.</p>" +
                 "<p>Regards</p>" +"<p>TEAM DCM</p>" +
