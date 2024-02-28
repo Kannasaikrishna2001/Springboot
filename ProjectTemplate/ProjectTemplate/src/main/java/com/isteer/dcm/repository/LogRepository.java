@@ -9,6 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 @Repository
-public interface LogRepository extends JpaRepository<LogTable, Long> {
+public interface LogRepository extends JpaRepository<LogTable, Integer> {
 
 }

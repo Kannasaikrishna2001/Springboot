@@ -7,20 +7,11 @@ import java.math.BigDecimal;
 
 public class OrderItem {
 
-    @JsonProperty("DistributorId")
-    private String distributorId;
     @JsonProperty("UPC")
     private BigDecimal upc;
     @JsonProperty("OrderSize")
     private BigDecimal orderSize;
 
-    public String getDistributorId() {
-        return distributorId;
-    }
-
-    public void setDistributorId(String distributorId) {
-        this.distributorId = distributorId;
-    }
 
     public BigDecimal getUpc() {
         return upc;
@@ -36,5 +27,13 @@ public class OrderItem {
 
     public void setOrderSize(BigDecimal orderSize) {
         this.orderSize = orderSize;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "upc=" + upc +
+                ", orderSize=" + orderSize +
+                '}';
     }
 }

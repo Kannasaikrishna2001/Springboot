@@ -2,92 +2,82 @@ package com.isteer.dcm.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "LOGDATA")
-public class LogTable {
-
+public class LogTable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name="ID")
+    private Integer id;
+    @Column(name="TRANSACTIOINID")
+    private String transactioinID;
 
-    @Column(name = "PROCESS_NAME")
-    private String processName;
+    @Column(name="COMPONENTNAME")
+    private String componentName;
 
-    @Column(name = "START_DATE_TIME")
-    private LocalDateTime startDateTime;
+    @Column(name="TRANSACTIONDATA")
+    private String trancationData;
 
-    @Column(name = "END_DATE_TIME")
-    private LocalDateTime end_date_time;
+    @Column(name="TRANSACTIONTIME")
+    private String transactionTime;
 
+    @Column(name="TRANSACTIONTYPE")
+    private String transactionType;
 
-    @Column(name = "PROCESS_ID")
-    private String processId;
-
-    @Column(name = "ERROR_MESSAGE")
-    private String errorMessage;
-
-    @Column(name = "STACK_TRACE")
-    private String stackTrace;
-
-    @Column(name = "STATUS")
+    @Column(name="STATUS")
     private String status;
 
-    @Column(name = "REQUEST")
-    private String request;
-
-    @Column(name = "RESPONSE")
-    private String response;
-
-    // Getters and setters for all fields
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getProcessName() {
-        return processName;
+    public String getTransactioinID() {
+        return transactioinID;
     }
 
-    public void setProcessName(String processName) {
-        this.processName = processName;
+    public void setTransactioinID(String transactioinID) {
+        this.transactioinID = transactioinID;
     }
 
-    public LocalDateTime getStartDateTime() {
-        return startDateTime;
+    public String getComponentName() {
+        return componentName;
     }
 
-    public void setStartDateTime(LocalDateTime startDateTime) {
-        this.startDateTime = startDateTime;
+    public void setComponentName(String componentName) {
+        this.componentName = componentName;
     }
 
-    public String getProcessId() {
-        return processId;
+    public String getTrancationData() {
+        return trancationData;
     }
 
-    public void setProcessId(String processId) {
-        this.processId = processId;
+    public void setTrancationData(String trancationData) {
+        this.trancationData = trancationData;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getTransactionTime() {
+        return transactionTime;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setTransactionTime(String transactionTime) {
+        this.transactionTime = transactionTime;
     }
 
-    public String getStackTrace() {
-        return stackTrace;
+    public String getTransactionType() {
+        return transactionType;
     }
 
-    public void setStackTrace(String stackTrace) {
-        this.stackTrace = stackTrace;
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public String getStatus() {
@@ -98,27 +88,28 @@ public class LogTable {
         this.status = status;
     }
 
-    public String getRequest() {
-        return request;
+    @Override
+    public String toString() {
+        return "LogTable{" +
+                "id=" + id +
+                ", transactioinID='" + transactioinID + '\'' +
+                ", componentName='" + componentName + '\'' +
+                ", trancationData='" + trancationData + '\'' +
+                ", transactionTime='" + transactionTime + '\'' +
+                ", transactionType='" + transactionType + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 
-    public void setRequest(String request) {
-        this.request = request;
+    public LogTable() {
     }
 
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
-    }
-
-    public LocalDateTime getEnd_date_time() {
-        return end_date_time;
-    }
-
-    public void setEnd_date_time(LocalDateTime end_date_time) {
-        this.end_date_time = end_date_time;
+    public LogTable( String transactioinID, String componentName, String trancationData, String transactionTime, String transactionType, String status) {
+        this.transactioinID = transactioinID;
+        this.componentName = componentName;
+        this.trancationData = trancationData;
+        this.transactionTime = transactionTime;
+        this.transactionType = transactionType;
+        this.status = status;
     }
 }

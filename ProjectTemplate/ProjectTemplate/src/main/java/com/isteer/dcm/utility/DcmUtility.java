@@ -2,9 +2,12 @@ package com.isteer.dcm.utility;
 
 import com.isteer.dcm.constants.DCMConstants;
 import com.isteer.dcm.entity.DcmUsers;
+import com.isteer.dcm.entity.LogTable;
 import com.isteer.dcm.model.Status;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.mail.Message;
@@ -45,6 +48,23 @@ public class DcmUtility {
 
     @Value("$(smtp.applicaton.content.type)")
     private String contentType;
+
+
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+
+    public String getStackTraceMsg(Exception e){
+        StringWriter str = new StringWriter();
+        e.printStackTrace(new PrintWriter(str));
+        String errorMessage=str.toString();
+        String errorSubstring="";
+        if(errorMessage.length()>1000)
+            errorSubstring=errorMessage.substring(0,1000);
+        else
+            errorSubstring=errorMessage;
+        return errorSubstring;
+    }
 
     public static String getStacktraceSubString(String stackTrace) {
         String[] words = stackTrace.split("\\s+");
@@ -130,5 +150,14 @@ public class DcmUtility {
     private String getCurrentDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyHHmmssSSS");
         return dateFormat.format(new Date());
+    }
+
+    public void sendLog(LogTable logData ){
+        try {
+            String destQueue = "test.queue";
+            jmsTemplate.convertAndSend(destQueue, logData);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

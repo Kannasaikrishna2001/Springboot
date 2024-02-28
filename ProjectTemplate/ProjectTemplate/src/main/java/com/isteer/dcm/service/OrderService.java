@@ -45,7 +45,7 @@ public class OrderService {
                 } else {
                     // Create order
                     OrdersTable order = new OrdersTable();
-                    order.setOrderplaced_by(item.getDistributorId());
+                    order.setOrderplaced_by(request.getDistributorId());
                     order.setProduct_id(item.getUpc().toString());
                     order.setOrderStatus(DCMConstants.ORDERSTATUS_PLACED);
                     order.setUpdatetime(LocalDateTime.now());

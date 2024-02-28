@@ -16,4 +16,11 @@ public class OrderResponse {
     public void setOrderStatusList(List<OrderStatus> orderStatusList) {
         this.orderStatusList = orderStatusList;
     }
+
+    @Override
+    public String toString() {
+        return "OrderResponse{" +
+                "orderStatusList=" + orderStatusList +
+                '}';
+    }
 }

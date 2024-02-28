@@ -1,13 +1,13 @@
 package com.isteer.dcm.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.isteer.dcm.constants.DCMConstants;
+import com.isteer.dcm.entity.LogTable;
 import com.isteer.dcm.entity.UserRoles;
 import com.isteer.dcm.model.*;
-//import com.isteer.dcm.service.OrderService;
 import com.isteer.dcm.service.OnstartupDataInitializer;
 import com.isteer.dcm.service.OrderService;
 import com.isteer.dcm.service.ReviewAndRating;
+import com.isteer.dcm.utility.DcmUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,11 +34,21 @@ public class DcmController {
     @Autowired
     OnstartupDataInitializer onstartupDataInitializer;
 
+
+    @Autowired
+    DcmUtility dcmUtility;
+
     @PostMapping("/place-order")
     public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest request) {
+       String transactioinId=dcmUtility.generateTransactionId();
         try {
-            // Log the received request for debugging purposes
             logger.info(DCMConstants.ORDER_REQUEST, request);
+            dcmUtility.sendLog(new LogTable(transactioinId,
+                    "PLACE ORDER",
+                    request.toString().trim(),
+                    LocalDateTime.now().toString(),
+                    DCMConstants.TRANCATION_REQUEST,
+                    DCMConstants.LOG_START));
 
             OrderResponse response = orderService.placeOrder(request);
 
@@ -55,29 +66,29 @@ public class DcmController {
                     }
                 }
             }
+            dcmUtility.sendLog(new LogTable(transactioinId,
+                    "PLACE ORDER",
+                    response.toString().trim(),
+                    LocalDateTime.now().toString(),
+                    DCMConstants.TRANSACTION_RESPONSE,
+                    DCMConstants.LOG_END));
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error(DCMConstants.ORDERSTATUS_ERROR, e);
+            dcmUtility.sendLog(new LogTable(transactioinId,
+                    "PLACE ORDER",
+                    dcmUtility.getStackTraceMsg(e),
+                    LocalDateTime.now().toString(),
+                    DCMConstants.TRANCATION_ERROR,
+                    DCMConstants.LOG_EXCEPTION));
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-  /*  @GetMapping(value = "/ratings-reviews")
-    public ProductReviewRoot getRatingsAndReviews(@RequestParam int sellerid) {
-
-        ProductReviewRoot productReviewRoot = reviewAndRating.sellerValidation(sellerid);
-       // Products product = reviewAndRating.getProductBySellerId(BigDecimal.valueOf(sellerid));
-
-
-                return ResponseEntity.ok(productReviewRoot);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-
-    }*/
 
     @GetMapping("/ratings-reviews")
-    public @ResponseBody ProductReviewRoot getRatingsAndReviews(@RequestParam Integer sellerId) {
+    public @ResponseBody
+    ProductReviewRoot getRatingsAndReviews(@RequestParam Integer sellerId) {
         ProductReviewRoot productReviewRoot = new ProductReviewRoot();
         try {
             List<UserRoles> dcmUsers = onstartupDataInitializer.getUserRoles().stream()
@@ -90,7 +101,7 @@ public class DcmController {
             } else {
                 //UserRoles userRole = dcmUsers.get(0);
                 for (UserRoles userRole : dcmUsers) {
-                    if(userRole.isViewRatingandReview().equals("N"))   {
+                    if (userRole.isViewRatingandReview().equals("N")) {
                         productReviewRoot.setResponseCode(DCMConstants.ACCESS_DENIED);
                         productReviewRoot.setResponseMessage(DCMConstants.ACCESS_DENIED);
                     } else {
@@ -113,6 +124,4 @@ public class DcmController {
         }
         return productReviewRoot;
     }
-
-
 }

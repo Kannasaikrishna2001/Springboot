@@ -24,4 +24,12 @@ public class OrderStatus {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
+
+    @Override
+    public String toString() {
+        return "OrderStatus{" +
+                "upc='" + upc + '\'' +
+                ", orderStatus='" + orderStatus + '\'' +
+                '}';
+    }
 }

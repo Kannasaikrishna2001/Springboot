@@ -5,6 +5,7 @@ import com.isteer.dcm.entity.LogTable;
 import com.isteer.dcm.repository.LogRepository;
 import com.isteer.dcm.utility.DcmUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,8 +16,16 @@ public class LogServiceImpl {
     @Autowired
     private LogRepository logEntryRepository;
 
+    @JmsListener(destination = "test.queue")
+    public void logMessage(LogTable logEntry) {
+        try {
+            logEntryRepository.save(logEntry);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-    public void logData(String processName, String errorMessage, String stackTrace, String processId, String request, String response) {
+  /*  public void logData(String processName, String errorMessage, String stackTrace, String processId, String request, String response) {
         // Mandatory Parameters
         if (processName == null || processName.isEmpty()) {
             processName = "Unknown Process"; // Default process name
@@ -63,5 +72,5 @@ public class LogServiceImpl {
         } catch (Exception e){
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }
