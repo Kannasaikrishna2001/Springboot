@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class UpdateOrderStatusScheduler {
 
     Logger logger= LoggerFactory.getLogger(UpdateOrderStatusScheduler.class);
+
     @Autowired
     private OrderRepository ordersRepository;
 
@@ -21,10 +22,14 @@ public class UpdateOrderStatusScheduler {
 
     @Scheduled(fixedRateString = "${checkStatus.time.interval}")
 
-
     //implement logging and handle excpetions
    public void scheduleOrderStatusCheck() {
-        orderStatusService.getOrderStatus();
-        logger.info("Scheduled order status check completed.");
+       try {
+           orderStatusService.getOrderStatus();
+           logger.info("Scheduled order status check completed.");
+       } catch (Exception e) {
+
+           logger.error("Error during scheduled order status check", e);
+       }
     }
 }
